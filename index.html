@@ -402,11 +402,11 @@ textarea { resize:vertical; min-height:88px }
         </div>
       </div>
       <div class="step-track">
-        <div class="st active" id="pt1"><div class="st-label">Step 01</div><div class="st-name">Corp Email & 2FA</div></div>
-        <div class="st"       id="pt2"><div class="st-label">Step 02</div><div class="st-name">LearnUpon Courses</div></div>
-        <div class="st"       id="pt3"><div class="st-label">Step 03</div><div class="st-name">Profile Form</div></div>
-        <div class="st"       id="pt4"><div class="st-label">Step 04</div><div class="st-name">AI Simulator</div></div>
-        <div class="st"       id="pt5"><div class="st-label">Step 05</div><div class="st-name">Readiness Check</div></div>
+        <div class="st active" id="pt1"><div class="st-label">01</div><div class="st-name">Corp Email & 2FA</div></div>
+        <div class="st"       id="pt2"><div class="st-label">02</div><div class="st-name">LearnUpon Courses</div></div>
+        <div class="st"       id="pt3"><div class="st-label">03</div><div class="st-name">Profile Form</div></div>
+        <div class="st"       id="pt4"><div class="st-label">04</div><div class="st-name">AI Simulator</div></div>
+        <div class="st"       id="pt5"><div class="st-label">05</div><div class="st-name">Readiness Check</div></div>
       </div>
     </div>
   </div>
@@ -419,7 +419,7 @@ textarea { resize:vertical; min-height:88px }
       <div class="card-head" onclick="tog('c1')">
         <div class="card-hl">
           <div class="card-icon" style="background:rgba(111,112,246,.12)">🔐</div>
-          <div><div class="card-title">Step 1 — Corporate Email & 2FA</div><div class="card-sub">Complete before anything else — required for activation</div></div>
+          <div><div class="card-title">Corporate Email & 2FA</div><div class="card-sub">Complete before anything else — required for activation</div></div>
         </div>
         <div class="card-right"><span class="badge progress" id="b1">In progress</span><span class="card-arr">▼</span></div>
       </div>
@@ -464,7 +464,7 @@ textarea { resize:vertical; min-height:88px }
       <div class="card-head" onclick="tog('c2')">
         <div class="card-hl">
           <div class="card-icon" style="background:rgba(92,206,255,.1)">📚</div>
-          <div><div class="card-title">Step 2 — Onboarding Courses</div><div class="card-sub">Complete all 4 courses in LearnUpon</div></div>
+          <div><div class="card-title">Onboarding Courses</div><div class="card-sub">Complete all 4 courses in LearnUpon</div></div>
         </div>
         <div class="card-right"><span class="badge todo" id="b2">To do</span><span class="card-arr">▼</span></div>
       </div>
@@ -488,7 +488,7 @@ textarea { resize:vertical; min-height:88px }
       <div class="card-head" onclick="tog('c3')">
         <div class="card-hl">
           <div class="card-icon" style="background:rgba(255,198,10,.1)">✨</div>
-          <div><div class="card-title">Step 3 — Create Your Profile</div><div class="card-sub">Your public expert card on Nebula</div></div>
+          <div><div class="card-title">Create Your Profile</div><div class="card-sub">Your public expert card on Nebula</div></div>
         </div>
         <div class="card-right"><span class="badge todo" id="b3">To do</span><span class="card-arr">▼</span></div>
       </div>
@@ -514,7 +514,7 @@ textarea { resize:vertical; min-height:88px }
       <div class="card-head" onclick="tog('c4')">
         <div class="card-hl">
           <div class="card-icon" style="background:rgba(255,72,255,.1)">🤖</div>
-          <div><div class="card-title">Step 4 — AI Chat Simulator</div><div class="card-sub">Practice before your first real chat</div></div>
+          <div><div class="card-title">AI Chat Simulator</div><div class="card-sub">Practice before your first real chat</div></div>
         </div>
         <div class="card-right"><span class="badge todo" id="b4">To do</span><span class="card-arr">▼</span></div>
       </div>
@@ -535,7 +535,7 @@ textarea { resize:vertical; min-height:88px }
       <div class="card-head" onclick="tog('c5')">
         <div class="card-hl">
           <div class="card-icon" style="background:rgba(87,255,167,.08)">✅</div>
-          <div><div class="card-title">Step 5 — Readiness Check</div><div class="card-sub">Final review by our team → profile activation</div></div>
+          <div><div class="card-title">Readiness Check</div><div class="card-sub">Final review by our team → profile activation</div></div>
         </div>
         <div class="card-right"><span class="badge todo" id="b5">Pending</span><span class="card-arr">▼</span></div>
       </div>
@@ -572,9 +572,51 @@ textarea { resize:vertical; min-height:88px }
       </div>
 
       <div class="msuccess" id="msuccess">
-        <div class="ms-icon">✓</div>
-        <div class="ms-title">Profile submitted!</div>
-        <div class="ms-text">Our team will review it within 2–3 business days.</div>
+        <!-- Profile Preview — як на сайті Nebula -->
+        <div style="text-align:left">
+          <!-- Header card -->
+          <div style="background:#1e2130;border:.5px solid #333;border-radius:14px;padding:20px;display:flex;align-items:center;gap:16px;margin-bottom:16px">
+            <div id="previewAvatarWrap" style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,rgba(111,112,246,.3),rgba(92,206,255,.15));border:.5px solid #444;display:flex;align-items:center;justify-content:center;font-size:32px;flex-shrink:0;overflow:hidden">
+              <span id="previewAvatarEmoji">👤</span>
+              <img id="previewAvatarImg" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:50%" src="">
+            </div>
+            <div style="flex:1">
+              <div style="font-size:20px;font-weight:500;color:#F4F4E6;margin-bottom:3px" id="pvNickname">—</div>
+              <div style="font-size:12px;color:#666;margin-bottom:10px" id="pvRole">Expert</div>
+              <div style="display:flex;flex-wrap:wrap;gap:5px" id="pvSpheres"></div>
+            </div>
+          </div>
+          <!-- Experience -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
+            <div style="background:#1e2130;border:.5px solid #333;border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:10px">
+              <span style="font-size:20px">⚡</span>
+              <div><div style="font-size:18px;font-weight:500;color:#F4F4E6" id="pvExp">—</div><div style="font-size:11px;color:#666">years of experience</div></div>
+            </div>
+            <div style="background:#1e2130;border:.5px solid #333;border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:10px">
+              <span style="font-size:20px">🌟</span>
+              <div><div style="font-size:18px;font-weight:500;color:#F4F4E6" id="pvAstro">—</div><div style="font-size:11px;color:#666">astrology type</div></div>
+            </div>
+          </div>
+          <!-- Expertise -->
+          <div style="background:#1e2130;border:.5px solid #333;border-radius:12px;padding:16px;margin-bottom:16px">
+            <div style="font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#666;margin-bottom:10px">Expertise</div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px" id="pvExpertise"></div>
+          </div>
+          <!-- About me -->
+          <div style="background:#1e2130;border:.5px solid #333;border-radius:12px;padding:16px;margin-bottom:20px">
+            <div style="font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#666;margin-bottom:10px">About me</div>
+            <div style="font-size:13px;color:#FFC60A;font-style:italic;margin-bottom:10px;text-align:center" id="pvSlogan">—</div>
+            <div style="font-size:12px;color:#999;line-height:1.7" id="pvDesc">—</div>
+          </div>
+          <!-- Submit status -->
+          <div id="pvSubmitStatus" style="text-align:center;padding:16px;background:rgba(87,255,167,.06);border:.5px solid rgba(87,255,167,.2);border-radius:10px">
+            <div style="font-size:13px;color:#57FFA7;font-weight:500;margin-bottom:4px">✓ Profile submitted successfully</div>
+            <div style="font-size:11px;color:#666">Our team will review it within 2–3 business days</div>
+          </div>
+          <div id="pvSubmitError" style="display:none;text-align:center;padding:16px;background:rgba(240,96,80,.08);border:.5px solid rgba(240,96,80,.25);border-radius:10px;margin-top:8px">
+            <div style="font-size:12px;color:#F06050">Could not save to database — please contact onboarding@asknebula.com</div>
+          </div>
+        </div>
       </div>
 
       <!-- PAGE 1 -->
@@ -783,13 +825,116 @@ function setLms(id) {
 
 function tog(id) { document.getElementById(id).classList.toggle('open'); }
 
+// ── VALIDATION ────────────────────────────────
+function showError(msg) {
+  let el = document.getElementById('mError');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'mError';
+    el.style.cssText = 'background:rgba(240,96,80,.12);border:.5px solid rgba(240,96,80,.3);border-radius:8px;padding:10px 14px;font-size:12px;color:#F06050;margin-bottom:8px;';
+    document.querySelector('.modal-body').prepend(el);
+  }
+  el.textContent = '⚠️ ' + msg;
+  el.style.display = 'block';
+  document.querySelector('.modal').scrollTop = 0;
+}
+function clearError() {
+  const el = document.getElementById('mError');
+  if (el) el.style.display = 'none';
+}
+
+function validatePage(page) {
+  clearError();
+
+  if (page === 1) {
+    const fullName = document.querySelector('#mp1 input[type=text]');
+    const dob      = document.querySelector('#mp1 input[type=date]');
+    const inputs   = document.querySelectorAll('#mp1 input[type=text]');
+    // Check all text inputs filled
+    for (const inp of inputs) {
+      if (!inp.value.trim()) { showError('Please fill in all required fields.'); return false; }
+    }
+    if (!dob.value) { showError('Please enter your date of birth.'); return false; }
+    // Gender
+    if (!document.querySelector('#mp1 input[name=g]:checked')) {
+      showError('Please select your gender.'); return false;
+    }
+    // Languages
+    if (!document.querySelector('#mp1 input[type=checkbox]:checked')) {
+      showError('Please select at least one language.'); return false;
+    }
+  }
+
+  if (page === 2) {
+    // Nickname + experience
+    const textInputs = document.querySelectorAll('#mp2 input[type=text], #mp2 input[type=number]');
+    for (const inp of textInputs) {
+      if (!inp.value.trim()) { showError('Please fill in all required fields.'); return false; }
+    }
+    // Astrology type
+    if (!document.querySelector('#mp2 input[name=astr]:checked')) {
+      showError('Please select your astrology type.'); return false;
+    }
+    // Expert in
+    if (!document.querySelector('#mp2 input[id^=e]:checked')) {
+      showError('Please select at least one area of expertise.'); return false;
+    }
+    // Life spheres
+    if (!document.querySelector('#mp2 input[id^=s]:checked')) {
+      showError('Please select at least one life sphere.'); return false;
+    }
+    // Slogan + description
+    const textarea = document.querySelector('#mp2 textarea');
+    if (!textarea.value.trim()) { showError('Please write your profile description.'); return false; }
+    // Photo
+    const photoInput = document.querySelector('#mp2 input[type=file]:first-of-type');
+    if (!photoInput.files || !photoInput.files[0]) {
+      showError('Please upload your portrait photo.'); return false;
+    }
+    // ID document
+    const allFiles = document.querySelectorAll('#mp2 input[type=file]');
+    if (allFiles.length > 1 && (!allFiles[1].files || !allFiles[1].files[0])) {
+      showError('Please upload your identity document.'); return false;
+    }
+  }
+
+  if (page === 3) {
+    // Payment method selected
+    if (!document.querySelector('#mp3 input[name=pay]:checked')) {
+      showError('Please select a payment method.'); return false;
+    }
+    const method = document.querySelector('#mp3 input[name=pay]:checked').value;
+    if (method === 'Payoneer') {
+      const inputs = document.querySelectorAll('#fpayoneer input');
+      for (const inp of inputs) {
+        if (!inp.value.trim()) { showError('Please fill in your Payoneer details.'); return false; }
+      }
+    }
+    if (method === 'PayPal') {
+      const inp = document.querySelector('#fpaypal input');
+      if (!inp.value.trim()) { showError('Please enter your PayPal email.'); return false; }
+    }
+    if (method === 'Wire') {
+      const inputs = document.querySelectorAll('#fpwire input');
+      for (const inp of inputs) {
+        if (!inp.value.trim()) { showError('Please fill in your bank details.'); return false; }
+      }
+    }
+  }
+
+  return true;
+}
+
 // Modal
 let mStep=1;
 const mLbls=['','1 / 3 — Personal info','2 / 3 — Expert profile','3 / 3 — Payment'];
 function openModal(){ document.getElementById('overlay').classList.add('open'); document.body.style.overflow='hidden'; }
-function closeModal(){ document.getElementById('overlay').classList.remove('open'); document.body.style.overflow=''; }
+function closeModal(){ document.getElementById('overlay').classList.remove('open'); document.body.style.overflow=''; clearError(); }
 function closeOut(e){ if(e.target===document.getElementById('overlay')) closeModal(); }
 function mGo(s){
+  // Validate current page before moving forward
+  if (s > mStep && !validatePage(mStep)) return;
+  clearError();
   document.getElementById('mp'+mStep).classList.remove('active');
   document.getElementById('mp'+s).classList.add('active');
   for(let i=1;i<=3;i++){
@@ -804,11 +949,116 @@ function mGo(s){
 }
 function mFile(inp,id){ if(inp.files&&inp.files[0]) document.getElementById(id).textContent='✓ '+inp.files[0].name; }
 function mPay(t){ ['payoneer','paypal','wire'].forEach(x=>{ document.getElementById('fp'+x).style.display=x===t?'block':'none'; }); }
+
 function mSubmit(){
+  if (!validatePage(3)) return;
+
+  // ── Збираємо всі дані форми ──────────────────
+  const getText = sel => (document.querySelector(sel)||{}).value||'';
+  const getChecked = (name) => {
+    const el = document.querySelector(`input[name="${name}"]:checked`);
+    return el ? el.value : '';
+  };
+  const getMulti = (prefix) => {
+    return Array.from(document.querySelectorAll(`input[id^="${prefix}"]:checked`))
+                .map(el => el.nextElementSibling.textContent).join(', ');
+  };
+
+  const formData = {
+    email:       userEmail,
+    // Page 1
+    fullName:    document.querySelectorAll('#mp1 input[type=text]')[0]?.value || '',
+    dob:         document.querySelector('#mp1 input[type=date]')?.value || '',
+    citizenship: document.querySelectorAll('#mp1 input[type=text]')[1]?.value || '',
+    location:    document.querySelectorAll('#mp1 input[type=text]')[2]?.value || '',
+    address:     document.querySelectorAll('#mp1 input[type=text]')[3]?.value || '',
+    gender:      getChecked('g'),
+    languages:   getMulti('l'),
+    // Page 2
+    nickname:    document.querySelectorAll('#mp2 input[type=text]')[0]?.value || '',
+    experience:  document.querySelector('#mp2 input[type=number]')?.value || '',
+    astrotype:   getChecked('astr'),
+    expertise:   getMulti('e'),
+    spheres:     getMulti('s'),
+    slogan:      document.querySelectorAll('#mp2 input[type=text]')[1]?.value || '',
+    description: document.querySelector('#mp2 textarea')?.value || '',
+    // Page 3
+    payMethod:   getChecked('pay'),
+    payoneerEmail: document.querySelector('#fpayoneer input[type=email]')?.value || '',
+    payoneerName:  document.querySelector('#fpayoneer input[type=text]')?.value || '',
+    paypalEmail:   document.querySelector('#fpaypal input[type=email]')?.value || '',
+    bankName:      document.querySelectorAll('#fpwire input')[0]?.value || '',
+    bankHolder:    document.querySelectorAll('#fpwire input')[1]?.value || '',
+    bankIban:      document.querySelectorAll('#fpwire input')[2]?.value || '',
+    bankSwift:     document.querySelectorAll('#fpwire input')[3]?.value || '',
+    submittedAt:   new Date().toISOString(),
+  };
+
+  // ── Показуємо превью профілю ─────────────────
+  document.getElementById('pvNickname').textContent = formData.nickname || '—';
+  document.getElementById('pvExp').textContent      = formData.experience || '—';
+  document.getElementById('pvAstro').textContent    = formData.astrotype || '—';
+  document.getElementById('pvSlogan').textContent   = formData.slogan ? `"${formData.slogan}"` : '—';
+  document.getElementById('pvDesc').textContent     = formData.description || '—';
+  document.getElementById('pvRole').textContent     = formData.expertise.split(',')[0] || 'Expert';
+
+  // Сфери як теги
+  const spheresEl = document.getElementById('pvSpheres');
+  spheresEl.innerHTML = '';
+  formData.spheres.split(',').filter(Boolean).forEach(s => {
+    const tag = document.createElement('span');
+    tag.style.cssText = 'font-size:10px;padding:3px 9px;background:rgba(111,112,246,.1);border:.5px solid rgba(111,112,246,.2);border-radius:20px;color:#999';
+    tag.textContent = s.trim();
+    spheresEl.appendChild(tag);
+  });
+
+  // Expertise як теги
+  const expEl = document.getElementById('pvExpertise');
+  expEl.innerHTML = '';
+  formData.expertise.split(',').filter(Boolean).forEach(e => {
+    const tag = document.createElement('span');
+    tag.style.cssText = 'font-size:11px;padding:5px 12px;background:#151821;border:.5px solid #333;border-radius:8px;color:#F4F4E6';
+    tag.textContent = e.trim();
+    expEl.appendChild(tag);
+  });
+
+  // Фото превью
+  const photoInput = document.querySelectorAll('#mp2 input[type=file]')[0];
+  if (photoInput?.files?.[0]) {
+    const reader = new FileReader();
+    reader.onload = e => {
+      document.getElementById('previewAvatarEmoji').style.display = 'none';
+      const img = document.getElementById('previewAvatarImg');
+      img.src = e.target.result;
+      img.style.display = 'block';
+    };
+    reader.readAsDataURL(photoInput.files[0]);
+  }
+
+  // ── Показуємо success screen ──────────────────
   document.getElementById('mp3').classList.remove('active');
-  document.getElementById('msuccess').style.display='block';
-  document.getElementById('mprog').style.display='none';
+  document.getElementById('msuccess').style.display = 'block';
+  document.getElementById('mprog').style.display    = 'none';
   setDone('b3','pt3');
+  document.querySelector('.modal').scrollTop = 0;
+
+  // ── Відправляємо дані в Sheet ─────────────────
+  if (WEB_APP_URL && WEB_APP_URL !== 'YOUR_WEB_APP_URL') {
+    fetch(WEB_APP_URL + '?action=saveProfile', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData)
+    })
+    .then(r => r.json())
+    .then(r => {
+      if (r.error) {
+        document.getElementById('pvSubmitError').style.display = 'block';
+      }
+    })
+    .catch(() => {
+      document.getElementById('pvSubmitError').style.display = 'block';
+    });
+  }
 }
 
 init();
