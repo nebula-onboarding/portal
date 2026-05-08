@@ -1060,13 +1060,10 @@ function mSubmit(){
   setDone('b3','pt3');
   document.querySelector('.modal').scrollTop = 0;
 
-  // ── Відправляємо дані в Sheet ─────────────────
+  // ── Відправляємо дані в Sheet через GET (CORS workaround) ──
   if (WEB_APP_URL && WEB_APP_URL !== 'YOUR_WEB_APP_URL') {
-    fetch(WEB_APP_URL + '?action=saveProfile', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData)
-    })
+    const encoded = encodeURIComponent(JSON.stringify(formData));
+    fetch(WEB_APP_URL + '?action=saveProfile&data=' + encoded)
     .then(r => r.json())
     .then(r => {
       if (r.error) {
