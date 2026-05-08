@@ -454,7 +454,7 @@ textarea { resize:vertical; min-height:88px }
           <div class="al"></div>
           ⚠️ <strong>Without active 2FA we cannot activate your profile.</strong> This is the most common blocker — please complete it first.
         </div>
-        <a href="https://nebula-expert.com/login" target="_blank" class="btn btn-pu">Open Corporate Email ↗</a>
+        <a href="https://accounts.google.com/AccountChooser" target="_blank" class="btn btn-pu">Open Google Space ↗</a>
       </div>
     </div>
 
@@ -685,9 +685,9 @@ textarea { resize:vertical; min-height:88px }
       <div class="mpage" id="mp3">
         <div class="mf"><label class="ml">Payment method <span class="req">*</span></label>
           <div class="popts">
-            <div class="popt"><input type="radio" name="pay" id="p1" value="Payoneer" onchange="mPay('payoneer')"><label for="p1"><div class="pi">🟢</div><div><div class="pn">Payoneer</div><div class="pd">Recommended · fast international transfers</div></div></label></div>
-            <div class="popt"><input type="radio" name="pay" id="p2" value="PayPal" onchange="mPay('paypal')"><label for="p2"><div class="pi">🔵</div><div><div class="pn">PayPal</div><div class="pd">Available in most countries</div></div></label></div>
-            <div class="popt"><input type="radio" name="pay" id="p3" value="Wire" onchange="mPay('wire')"><label for="p3"><div class="pi">🏦</div><div><div class="pn">Wire Transfer</div><div class="pd">Bank transfer in USD</div></div></label></div>
+            <div class="popt"><input type="radio" name="pay" id="p1" value="Payoneer"><label for="p1" onclick="mPay('payoneer')"><div class="pi">🟢</div><div><div class="pn">Payoneer</div><div class="pd">Recommended · fast international transfers</div></div></label></div>
+            <div class="popt"><input type="radio" name="pay" id="p2" value="PayPal"><label for="p2" onclick="mPay('paypal')"><div class="pi">🔵</div><div><div class="pn">PayPal</div><div class="pd">Available in most countries</div></div></label></div>
+            <div class="popt"><input type="radio" name="pay" id="p3" value="Wire"><label for="p3" onclick="mPay('wire')"><div class="pi">🏦</div><div><div class="pn">Wire Transfer</div><div class="pd">Bank transfer in USD</div></div></label></div>
           </div>
         </div>
         <div id="fpayoneer" style="display:none"><div class="fdiv"></div>
