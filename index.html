@@ -898,23 +898,28 @@ function validatePage(page) {
   }
 
   if (page === 3) {
-    // Payment method selected
     if (!document.querySelector('#mp3 input[name=pay]:checked')) {
       showError('Please select a payment method.'); return false;
     }
     const method = document.querySelector('#mp3 input[name=pay]:checked').value;
     if (method === 'Payoneer') {
-      const inputs = document.querySelectorAll('#fpayoneer input');
+      const payoneerEl = document.getElementById('fpayoneer');
+      if (payoneerEl.style.display === 'none') { showError('Please fill in your Payoneer details.'); return false; }
+      const inputs = payoneerEl.querySelectorAll('input');
       for (const inp of inputs) {
         if (!inp.value.trim()) { showError('Please fill in your Payoneer details.'); return false; }
       }
     }
     if (method === 'PayPal') {
-      const inp = document.querySelector('#fpaypal input');
+      const paypalEl = document.getElementById('fpaypal');
+      if (paypalEl.style.display === 'none') { showError('Please enter your PayPal email.'); return false; }
+      const inp = paypalEl.querySelector('input');
       if (!inp.value.trim()) { showError('Please enter your PayPal email.'); return false; }
     }
     if (method === 'Wire') {
-      const inputs = document.querySelectorAll('#fpwire input');
+      const wireEl = document.getElementById('fpwire');
+      if (wireEl.style.display === 'none') { showError('Please fill in your bank details.'); return false; }
+      const inputs = wireEl.querySelectorAll('input');
       for (const inp of inputs) {
         if (!inp.value.trim()) { showError('Please fill in your bank details.'); return false; }
       }
@@ -947,7 +952,13 @@ function mGo(s){
   document.querySelector('.modal').scrollTop=0;
 }
 function mFile(inp,id){ if(inp.files&&inp.files[0]) document.getElementById(id).textContent='✓ '+inp.files[0].name; }
-function mPay(t){ ['payoneer','paypal','wire'].forEach(x=>{ document.getElementById('fp'+x).style.display=x===t?'block':'none'; }); }
+function mPay(t){
+  setTimeout(function(){
+    ['payoneer','paypal','wire'].forEach(x=>{
+      document.getElementById('fp'+x).style.display = x===t ? 'block' : 'none';
+    });
+  }, 10);
+}
 
 function mSubmit(){
   if (!validatePage(3)) return;
