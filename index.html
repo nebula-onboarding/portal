@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nebula — Onboarding Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ── NEBULA DESIGN TOKENS ───────────────────── */
+:root {
+  --bg:    #151821;
+  --card:  #1e2130;
+  --bd:    #333333;
+  --bd2:   #444444;
+  --cr:    #F4F4E6;
+  --g9:    #999999;
+  --g6:    #666666;
+  --g4:    #444444;
+  --pu:    #6F70F6;
+  --co:    #F06050;
+  --cy:    #5CCEFF;
+  --mi:    #57FFA7;
+  --go:    #FFC60A;
+  --ma:    #FF48FF;
+}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box }
+body {
+  font-family: Inter, system-ui, sans-serif;
+  background: #0a0b10;
+  color: var(--cr);
+  min-height: 100vh;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* ── TOPBAR ─────────────────────────────────── */
+.topbar {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(21,24,33,.95);
+  backdrop-filter: blur(10px);
+  border-bottom: .5px solid var(--bd);
+  padding: 0 32px; height: 52px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.tlogo { display:flex; align-items:center; gap:10px }
+.tlogo img { height: 22px; opacity: .85 }
+.tlogo-name { font-size:15px; font-weight:500; color:var(--cr); letter-spacing:.02em }
+.tuser { font-size:12px; color:var(--g6) }
+.tuser strong { color:var(--cr); font-weight:500 }
+
+/* ── HERO ───────────────────────────────────── */
+.hero {
+  background: var(--bg);
+  border-bottom: .5px solid var(--bd);
+  padding: 36px 32px 28px;
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content:''; position:absolute; top:-80px; right:-60px;
+  width:320px; height:320px; border-radius:50%;
+  background: radial-gradient(circle,rgba(111,112,246,.12),rgba(92,206,255,.04) 60%,transparent 80%);
+  pointer-events:none;
+}
+.hero-inner { max-width: 800px; margin: 0 auto; position:relative }
+.hero-top { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:24px; flex-wrap:wrap }
+.hero-label {
+  font-size:10px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase;
+  color:var(--g6); margin-bottom:10px;
+}
+.hero-name {
+  font-family: Georgia,"Times New Roman",serif;
+  font-size: 28px; font-weight:400; color:var(--cr); margin-bottom:5px;
+}
+.hero-dates { font-size:12px; color:var(--g6) }
+.hero-dates strong { color:var(--cr); font-weight:500 }
+
+/* Status badge */
+.status-badge {
+  display:inline-flex; align-items:center; gap:8px;
+  padding:9px 18px; border-radius:100px; border:.5px solid;
+  font-size:12px; font-weight:500; flex-shrink:0; white-space:nowrap;
+}
+.status-badge.loading   { background:rgba(255,255,255,.04); border-color:var(--bd); color:var(--g6) }
+.status-badge.progress  { background:rgba(111,112,246,.1);  border-color:rgba(111,112,246,.3); color:var(--pu) }
+.status-badge.activated { background:rgba(87,255,167,.08);  border-color:rgba(87,255,167,.25); color:var(--mi) }
+.status-dot { width:6px; height:6px; border-radius:50%; background:currentColor }
+.status-dot.pulse { animation: pulse 2s infinite }
+@keyframes pulse { 0%,100%{opacity:1}50%{opacity:.3} }
+
+/* Step track */
+.step-track { display:grid; grid-template-columns:repeat(5,1fr); gap:10px }
+.st {
+  background: var(--card); border:.5px solid var(--bd);
+  border-radius:14px; padding:14px 16px;
+  cursor:pointer; transition: border-color .2s;
+  position:relative; overflow:hidden;
+}
+.st:hover { border-color:var(--bd2) }
+.st.active { border-color:var(--pu) }
+.st.done   { border-color:rgba(87,255,167,.3) }
+.st.done::after {
+  content:'✓'; position:absolute; top:10px; right:12px;
+  font-size:10px; font-weight:700; color:var(--mi);
+}
+.st-label {
+  font-size:9px; font-weight:600; letter-spacing:1px; text-transform:uppercase; margin-bottom:5px;
+}
+.st:nth-child(1) .st-label { color:var(--pu) }
+.st:nth-child(2) .st-label { color:var(--cy) }
+.st:nth-child(3) .st-label { color:var(--go) }
+.st:nth-child(4) .st-label { color:var(--ma) }
+.st:nth-child(5) .st-label { color:var(--mi) }
+.st-name { font-size:11px; font-weight:500; color:var(--cr); line-height:1.35 }
+
+/* ── MAIN ───────────────────────────────────── */
+.main { max-width:800px; margin:24px auto; padding:0 32px 80px; display:flex; flex-direction:column; gap:10px }
+
+/* ── ACCORDION CARD ─────────────────────────── */
+.card { background:var(--card); border:.5px solid var(--bd); border-radius:14px; overflow:hidden }
+.card-head {
+  padding:18px 20px; display:flex; align-items:center;
+  justify-content:space-between; cursor:pointer;
+  transition: background .15s; user-select:none;
+}
+.card-head:hover { background: rgba(255,255,255,.02) }
+.card-hl { display:flex; align-items:center; gap:12px }
+.card-icon {
+  width:36px; height:36px; border-radius:10px;
+  display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0;
+}
+.card-title { font-size:13px; font-weight:600; color:var(--cr) }
+.card-sub   { font-size:11px; color:var(--g6); margin-top:2px }
+.card-right { display:flex; align-items:center; gap:10px }
+.badge {
+  font-size:10px; font-weight:600; padding:3px 10px;
+  border-radius:20px; display:inline-block; letter-spacing:.4px;
+}
+.badge.done     { background:rgba(87,255,167,.1);  color:var(--mi) }
+.badge.progress { background:rgba(111,112,246,.12); color:var(--pu) }
+.badge.todo     { background:rgba(255,255,255,.05); color:var(--g6) }
+.card-arr { font-size:9px; color:var(--g6); transition:transform .2s }
+.card.open .card-arr { transform:rotate(180deg) }
+.card-body { display:none; padding:0 20px 20px; border-top:.5px solid var(--bd) }
+.card.open .card-body { display:block }
+
+/* ── BOXES ──────────────────────────────────── */
+.warn-box {
+  background:rgba(240,96,80,.07); border:.5px solid rgba(240,96,80,.25);
+  border-radius:10px; padding:14px 16px; margin-top:16px;
+  position:relative; overflow:hidden;
+}
+.warn-box .al { background:var(--co) }
+.warn-title { font-size:11px; font-weight:600; color:var(--co); margin-bottom:6px }
+.warn-text  { font-size:12px; color:var(--g9); line-height:1.65 }
+.warn-text strong { color:var(--cr); font-weight:500 }
+
+.info-box {
+  background:rgba(111,112,246,.07); border:.5px solid rgba(111,112,246,.2);
+  border-radius:10px; padding:14px 16px; margin-top:12px;
+  font-size:12px; color:var(--g9); line-height:1.65;
+  position:relative; overflow:hidden;
+}
+.info-box .al { background:var(--pu) }
+.info-box strong { color:var(--cr); font-weight:500 }
+
+/* Accent left bar */
+.al { position:absolute; top:0; left:0; width:3px; height:100%; border-radius:3px 0 0 3px }
+
+/* ── STEPS LIST ─────────────────────────────── */
+.steps-list { display:flex; flex-direction:column; gap:8px; margin-top:16px }
+.step-item {
+  display:flex; align-items:flex-start; gap:12px;
+  padding:12px 14px; background:#151821;
+  border:.5px solid var(--bd); border-radius:10px;
+}
+.nc {
+  width:28px; height:28px; border-radius:50%; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center;
+  font-size:11px; font-weight:600; background:rgba(111,112,246,.15);
+  border:.5px solid rgba(111,112,246,.3); color:var(--pu); margin-top:1px;
+}
+.step-text { font-size:12px; color:var(--cr); line-height:1.55 }
+.step-note { font-size:11px; color:var(--g6); margin-top:3px }
+
+/* ── BUTTONS ────────────────────────────────── */
+.btn {
+  display:inline-flex; align-items:center; gap:7px;
+  margin-top:16px; border-radius:100px; padding:10px 22px;
+  font-family:Inter,system-ui,sans-serif; font-size:12px; font-weight:500;
+  cursor:pointer; text-decoration:none; transition:all .2s; border:none;
+}
+.btn-pu   { background:var(--pu); color:#fff }
+.btn-pu:hover { opacity:.85; transform:translateY(-1px) }
+.btn-go   { background:linear-gradient(135deg,var(--go),#e8c07a); color:#1a1207 }
+.btn-go:hover { opacity:.9; transform:translateY(-1px); box-shadow:0 6px 20px rgba(255,198,10,.2) }
+.btn-ma   { background:rgba(255,72,255,.12); border:.5px solid rgba(255,72,255,.3); color:var(--ma) }
+.btn-ma:hover { background:rgba(255,72,255,.2) }
+.btn-out  { background:transparent; border:.5px solid var(--bd2); color:var(--cr) }
+.btn-out:hover { border-color:var(--pu); color:var(--pu) }
+
+/* ── LMS ROWS ───────────────────────────────── */
+.lms-list { display:flex; flex-direction:column; gap:8px; margin-top:16px }
+.lms-row {
+  display:flex; align-items:center; gap:12px;
+  padding:11px 14px; background:#151821;
+  border:.5px solid var(--bd); border-radius:10px;
+}
+.lms-icon { font-size:14px; flex-shrink:0 }
+.lms-name { font-size:12px; font-weight:500; color:var(--cr); flex:1 }
+.lms-badge { font-size:10px; font-weight:600; padding:2px 9px; border-radius:20px }
+.lms-badge.done     { background:rgba(87,255,167,.1);  color:var(--mi) }
+.lms-badge.progress { background:rgba(255,198,10,.1);  color:var(--go) }
+.lms-badge.todo     { background:rgba(255,255,255,.05); color:var(--g6) }
+
+/* ── PROFILE PREVIEW ────────────────────────── */
+.profile-preview {
+  display:flex; align-items:center; gap:16px;
+  padding:18px; background:#151821;
+  border:.5px solid var(--bd); border-radius:14px; margin-top:16px;
+}
+.avatar {
+  width:52px; height:52px; border-radius:50%; flex-shrink:0;
+  background:linear-gradient(135deg,rgba(111,112,246,.25),rgba(92,206,255,.15));
+  border:.5px solid var(--bd2);
+  display:flex; align-items:center; justify-content:center; font-size:20px;
+}
+.profile-name { font-size:14px; font-weight:500; color:var(--cr); margin-bottom:3px }
+.profile-role { font-size:11px; color:var(--g6) }
+.profile-tags { display:flex; flex-wrap:wrap; gap:5px; margin-top:8px }
+.ptag {
+  font-size:10px; padding:3px 9px;
+  background:rgba(111,112,246,.08); border:.5px solid rgba(111,112,246,.15);
+  border-radius:20px; color:var(--g9);
+}
+
+/* ── SIMULATOR CARD ─────────────────────────── */
+.sim-block {
+  display:flex; align-items:center; gap:16px;
+  padding:18px; background:#151821;
+  border:.5px solid rgba(255,72,255,.15); border-radius:14px; margin-top:16px;
+}
+.sim-icon {
+  width:48px; height:48px; border-radius:12px; flex-shrink:0;
+  background:rgba(255,72,255,.1);
+  display:flex; align-items:center; justify-content:center; font-size:22px;
+}
+.sim-title { font-size:13px; font-weight:600; color:var(--cr); margin-bottom:4px }
+.sim-desc  { font-size:11px; color:var(--g6); line-height:1.55 }
+
+/* ── READINESS ───────────────────────────────── */
+.readiness-block {
+  text-align:center; padding:24px 16px; background:#151821;
+  border:.5px solid var(--bd); border-radius:14px; margin-top:16px;
+}
+.readiness-icon  { font-size:28px; margin-bottom:10px }
+.readiness-title { font-size:13px; font-weight:600; color:var(--cr); margin-bottom:6px }
+.readiness-text  { font-size:12px; color:var(--g6); line-height:1.6; max-width:420px; margin:0 auto }
+.readiness-st {
+  display:inline-flex; align-items:center; gap:6px;
+  margin-top:14px; padding:8px 18px; border-radius:100px;
+  font-size:11px; font-weight:500;
+}
+.readiness-st.wait     { background:rgba(255,255,255,.04); border:.5px solid var(--bd); color:var(--g6) }
+.readiness-st.approved { background:rgba(87,255,167,.08);  border:.5px solid rgba(87,255,167,.25); color:var(--mi) }
+
+/* ── MODAL ──────────────────────────────────── */
+.overlay {
+  position:fixed; inset:0; background:rgba(0,0,0,.75);
+  backdrop-filter:blur(6px); z-index:200;
+  display:none; align-items:center; justify-content:center; padding:20px;
+}
+.overlay.open { display:flex }
+.modal {
+  background:var(--bg); border:.5px solid var(--bd2);
+  border-radius:18px; width:100%; max-width:600px;
+  max-height:90vh; overflow-y:auto; position:relative;
+}
+.modal-head {
+  padding:20px 24px 16px; display:flex; align-items:center; justify-content:space-between;
+  position:sticky; top:0; background:var(--bg);
+  border-bottom:.5px solid var(--bd); z-index:10;
+}
+.modal-title { font-family:Georgia,"Times New Roman",serif; font-size:20px; font-weight:400; color:var(--cr) }
+.modal-close {
+  width:28px; height:28px; border-radius:50%;
+  background:rgba(255,255,255,.06); border:none;
+  color:var(--g6); cursor:pointer; font-size:14px;
+  display:flex; align-items:center; justify-content:center; transition:all .2s;
+}
+.modal-close:hover { background:rgba(255,255,255,.12); color:var(--cr) }
+.modal-body { padding:20px 24px 24px; display:flex; flex-direction:column; gap:14px }
+.mprog { display:flex; align-items:center; gap:5px; margin-bottom:4px }
+.mpd { width:5px; height:5px; border-radius:50%; background:var(--bd); transition:all .25s }
+.mpd.active { background:var(--pu); width:18px; border-radius:3px }
+.mpd.done   { background:var(--mi) }
+.mpl  { width:24px; height:.5px; background:var(--bd) }
+.mslbl { font-size:10px; color:var(--g6); margin-left:8px }
+.mpage { display:none; flex-direction:column; gap:12px }
+.mpage.active { display:flex }
+.mrow2 { display:grid; grid-template-columns:1fr 1fr; gap:12px }
+.mf    { display:flex; flex-direction:column; gap:5px }
+.ml    { font-size:9px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--g6) }
+.ml .req { color:var(--pu); margin-left:2px }
+input[type=text], input[type=email], input[type=date], input[type=number], textarea {
+  background:#0d0e16; border:.5px solid var(--bd2); border-radius:8px;
+  padding:9px 12px; font-family:Inter,system-ui,sans-serif;
+  font-size:13px; color:var(--cr); width:100%; outline:none;
+  -webkit-appearance:none; transition:border-color .2s;
+}
+input:focus, textarea:focus { border-color:var(--pu); box-shadow:0 0 0 3px rgba(111,112,246,.1) }
+input::placeholder, textarea::placeholder { color:var(--bd2) }
+textarea { resize:vertical; min-height:88px }
+.mnote { font-size:10px; color:var(--g6); line-height:1.5 }
+.pills { display:flex; flex-wrap:wrap; gap:6px }
+.pill { position:relative }
+.pill input { position:absolute; opacity:0; width:0; height:0 }
+.pill label {
+  display:inline-block; padding:5px 11px;
+  background:#0d0e16; border:.5px solid var(--bd2); border-radius:100px;
+  font-size:11px; color:var(--g6); cursor:pointer; transition:all .2s;
+}
+.pill input:checked + label { background:rgba(111,112,246,.15); border-color:var(--pu); color:var(--pu) }
+.uzone {
+  border:1.5px dashed var(--bd2); border-radius:10px;
+  padding:20px; text-align:center; position:relative;
+  cursor:pointer; transition:all .2s; background:#0d0e16;
+}
+.uzone:hover { border-color:var(--pu) }
+.uzone input { position:absolute; inset:0; opacity:0; cursor:pointer; width:100%; height:100% }
+.uicon { font-size:20px; margin-bottom:5px }
+.ut    { font-size:12px; color:var(--g6) }
+.ut strong { color:var(--cy) }
+.uh    { font-size:10px; color:var(--g4); margin-top:3px }
+.ufn   { font-size:11px; color:var(--mi); margin-top:5px }
+.popts { display:flex; flex-direction:column; gap:7px }
+.popt  { position:relative }
+.popt input { position:absolute; opacity:0; width:0; height:0 }
+.popt label {
+  display:flex; align-items:center; gap:11px; padding:12px 14px;
+  background:#0d0e16; border:.5px solid var(--bd2); border-radius:10px;
+  cursor:pointer; transition:all .2s;
+}
+.popt input:checked + label { border-color:var(--pu); background:rgba(111,112,246,.07) }
+.pi   { width:28px; height:28px; border-radius:7px; background:var(--card); display:flex; align-items:center; justify-content:center; font-size:13px; flex-shrink:0 }
+.pn   { font-size:12px; font-weight:500; color:var(--cr) }
+.pd   { font-size:10px; color:var(--g6) }
+.fdiv { height:.5px; background:var(--bd); margin:4px 0 }
+.mnav { display:flex; justify-content:space-between; align-items:center; padding-top:4px }
+.msuccess { display:none; text-align:center; padding:36px 0 }
+.ms-icon  { width:52px; height:52px; background:rgba(87,255,167,.08); border:.5px solid var(--mi); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:22px; margin:0 auto 14px }
+.ms-title { font-family:Georgia,"Times New Roman",serif; font-size:22px; font-weight:400; color:var(--cr); margin-bottom:8px }
+.ms-text  { font-size:12px; color:var(--g9) }
+
+/* ── LOADING ─────────────────────────────────── */
+.loading { text-align:center; padding:64px 24px; color:var(--g6); font-size:13px }
+.ldots   { display:inline-flex; gap:5px; margin-bottom:14px }
+.ldot    { width:6px; height:6px; border-radius:50%; background:var(--pu); animation:ld 1.2s infinite }
+.ldot:nth-child(2) { animation-delay:.2s }
+.ldot:nth-child(3) { animation-delay:.4s }
+@keyframes ld { 0%,80%,100%{opacity:.2;transform:scale(.8)}40%{opacity:1;transform:scale(1)} }
+
+@media(max-width:600px) {
+  .step-track { grid-template-columns:repeat(3,1fr) }
+  .mrow2 { grid-template-columns:1fr }
+  .hero-top { flex-direction:column }
+  .main,.hero,.topbar { padding-left:16px; padding-right:16px }
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="tlogo">
+    <img src="data:image/png;base64,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" alt="Nebula">
+    <span class="tlogo-name">nebula</span>
+  </div>
+  <div class="tuser">Welcome, <strong id="topName">—</strong></div>
+</div>
+
+<!-- LOADING -->
+<div id="loadingEl" class="loading">
+  <div class="ldots"><div class="ldot"></div><div class="ldot"></div><div class="ldot"></div></div>
+  <div>Loading your portal…</div>
+</div>
+
+<!-- PORTAL -->
+<div id="portal" style="display:none">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="hero-top">
+        <div>
+          <div class="hero-label">Onboarding Portal</div>
+          <div class="hero-name" id="heroName">—</div>
+          <div class="hero-dates">Start: <strong id="heroStart">—</strong> &nbsp;·&nbsp; Deadline: <strong id="heroDl">—</strong></div>
+        </div>
+        <div class="status-badge loading" id="statusBadge">
+          <div class="status-dot pulse"></div>
+          <span id="statusText">Loading…</span>
+        </div>
+      </div>
+      <div class="step-track">
+        <div class="st active" id="pt1"><div class="st-label">Step 01</div><div class="st-name">Corp Email & 2FA</div></div>
+        <div class="st"       id="pt2"><div class="st-label">Step 02</div><div class="st-name">LearnUpon Courses</div></div>
+        <div class="st"       id="pt3"><div class="st-label">Step 03</div><div class="st-name">Profile Form</div></div>
+        <div class="st"       id="pt4"><div class="st-label">Step 04</div><div class="st-name">AI Simulator</div></div>
+        <div class="st"       id="pt5"><div class="st-label">Step 05</div><div class="st-name">Readiness Check</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARDS -->
+  <div class="main">
+
+    <!-- 1. Corp Email + 2FA -->
+    <div class="card open" id="c1">
+      <div class="card-head" onclick="tog('c1')">
+        <div class="card-hl">
+          <div class="card-icon" style="background:rgba(111,112,246,.12)">🔐</div>
+          <div><div class="card-title">Step 1 — Corporate Email & 2FA</div><div class="card-sub">Complete before anything else — required for activation</div></div>
+        </div>
+        <div class="card-right"><span class="badge progress" id="b1">In progress</span><span class="card-arr">▼</span></div>
+      </div>
+      <div class="card-body">
+        <div class="warn-box">
+          <div class="al"></div>
+          <div class="warn-title">⚠️ Common mistake — please read first</div>
+          <div class="warn-text">
+            You must log in using your <strong>Nebula corporate account</strong>, not your personal Google account.<br>
+            Your corporate login: <strong id="corpDisplay">—</strong><br><br>
+            Sign in at <strong>nebula-expert.com/login</strong> (not gmail.com directly)
+          </div>
+        </div>
+        <div class="steps-list">
+          <div class="step-item">
+            <div class="nc">1</div>
+            <div><div class="step-text">Go to <strong>nebula-expert.com/login</strong> → sign in with your corporate email and temporary password</div><div class="step-note">Make sure you are NOT signed into a personal Google account in this browser tab</div></div>
+          </div>
+          <div class="step-item">
+            <div class="nc">2</div>
+            <div><div class="step-text">Change your temporary password to a personal one you will remember</div><div class="step-note">You will also use this to log into NebulaX</div></div>
+          </div>
+          <div class="step-item">
+            <div class="nc">3</div>
+            <div><div class="step-text">Enable <strong>2-Factor Authentication (2FA)</strong></div><div class="step-note">Google Account → Security → 2-Step Verification → add your phone number</div></div>
+          </div>
+          <div class="step-item">
+            <div class="nc">4</div>
+            <div><div class="step-text">Send us a screenshot confirming 2FA is active</div><div class="step-note">Reply to the corporate email access letter we sent you</div></div>
+          </div>
+        </div>
+        <div class="info-box">
+          <div class="al"></div>
+          ⚠️ <strong>Without active 2FA we cannot activate your profile.</strong> This is the most common blocker — please complete it first.
+        </div>
+        <a href="https://nebula-expert.com/login" target="_blank" class="btn btn-pu">Open Corporate Email ↗</a>
+      </div>
+    </div>
+
+    <!-- 2. LearnUpon -->
+    <div class="card" id="c2">
+      <div class="card-head" onclick="tog('c2')">
+        <div class="card-hl">
+          <div class="card-icon" style="background:rgba(92,206,255,.1)">📚</div>
+          <div><div class="card-title">Step 2 — Onboarding Courses</div><div class="card-sub">Complete all 4 courses in LearnUpon</div></div>
+        </div>
+        <div class="card-right"><span class="badge todo" id="b2">To do</span><span class="card-arr">▼</span></div>
+      </div>
+      <div class="card-body">
+        <div class="info-box">
+          <div class="al"></div>
+          The LearnUpon invite was sent to your personal email. Check <strong>Spam / Promotions</strong> if you don't see it.
+        </div>
+        <div class="lms-list">
+          <div class="lms-row"><div class="lms-icon">🌌</div><div class="lms-name">Intro: The Nebula Universe</div><div class="lms-badge todo" id="lms1">To do</div></div>
+          <div class="lms-row"><div class="lms-icon">✨</div><div class="lms-name">Building Your Nebula Profile</div><div class="lms-badge todo" id="lms2">To do</div></div>
+          <div class="lms-row"><div class="lms-icon">⚡</div><div class="lms-name">The Core Nebula</div><div class="lms-badge todo" id="lms3">To do</div></div>
+          <div class="lms-row"><div class="lms-icon">🌐</div><div class="lms-name">The Ecosystem of Nebula</div><div class="lms-badge todo" id="lms4">To do</div></div>
+        </div>
+        <a href="https://asknebula.learnupon.com/users/sign_in?next=%2Flearner-dashboard" target="_blank" class="btn btn-pu">Open LearnUpon ↗</a>
+      </div>
+    </div>
+
+    <!-- 3. Profile Form -->
+    <div class="card" id="c3">
+      <div class="card-head" onclick="tog('c3')">
+        <div class="card-hl">
+          <div class="card-icon" style="background:rgba(255,198,10,.1)">✨</div>
+          <div><div class="card-title">Step 3 — Create Your Profile</div><div class="card-sub">Your public expert card on Nebula</div></div>
+        </div>
+        <div class="card-right"><span class="badge todo" id="b3">To do</span><span class="card-arr">▼</span></div>
+      </div>
+      <div class="card-body">
+        <div class="profile-preview">
+          <div class="avatar">👤</div>
+          <div>
+            <div class="profile-name" id="previewName">Your Profile</div>
+            <div class="profile-role">Expert card — not yet created</div>
+            <div class="profile-tags">
+              <span class="ptag">Display name</span><span class="ptag">Expertise</span>
+              <span class="ptag">Bio & slogan</span><span class="ptag">Portrait photo</span>
+              <span class="ptag">Payment info</span><span class="ptag">ID document</span>
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-go" onclick="openModal()">Fill in Profile Form ✦</button>
+      </div>
+    </div>
+
+    <!-- 4. AI Simulator -->
+    <div class="card" id="c4">
+      <div class="card-head" onclick="tog('c4')">
+        <div class="card-hl">
+          <div class="card-icon" style="background:rgba(255,72,255,.1)">🤖</div>
+          <div><div class="card-title">Step 4 — AI Chat Simulator</div><div class="card-sub">Practice before your first real chat</div></div>
+        </div>
+        <div class="card-right"><span class="badge todo" id="b4">To do</span><span class="card-arr">▼</span></div>
+      </div>
+      <div class="card-body">
+        <div class="sim-block">
+          <div class="sim-icon">🤖</div>
+          <div>
+            <div class="sim-title">AI Trial Chat Simulator</div>
+            <div class="sim-desc">Practice real chat scenarios before your first shift. Replicates actual user interactions so you feel confident from Day 1.</div>
+            <a href="YOUR_SIMULATOR_LINK" target="_blank" class="btn btn-ma" style="margin-top:12px">Launch Simulator ↗</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. Readiness Check -->
+    <div class="card" id="c5">
+      <div class="card-head" onclick="tog('c5')">
+        <div class="card-hl">
+          <div class="card-icon" style="background:rgba(87,255,167,.08)">✅</div>
+          <div><div class="card-title">Step 5 — Readiness Check</div><div class="card-sub">Final review by our team → profile activation</div></div>
+        </div>
+        <div class="card-right"><span class="badge todo" id="b5">Pending</span><span class="card-arr">▼</span></div>
+      </div>
+      <div class="card-body">
+        <div class="readiness-block">
+          <div class="readiness-icon">🔍</div>
+          <div class="readiness-title">Our team reviews your progress</div>
+          <div class="readiness-text">Once you complete Steps 1–4, the onboarding team checks everything: 2FA confirmation, courses, profile form, and simulator. If all is good — your profile gets activated within 1 business day.</div>
+          <div class="readiness-st wait" id="readSt">⏳ Waiting for steps to be completed</div>
+        </div>
+        <div class="info-box" style="margin-top:12px">
+          <div class="al"></div>
+          Questions? Reply to any onboarding email or write to <strong>onboarding@asknebula.com</strong>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /main -->
+</div><!-- /portal -->
+
+<!-- MODAL -->
+<div class="overlay" id="overlay" onclick="closeOut(event)">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title">Profile Creation Form</div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="mprog" id="mprog">
+        <div class="mpd active" id="mpd1"></div><div class="mpl"></div>
+        <div class="mpd" id="mpd2"></div><div class="mpl"></div>
+        <div class="mpd" id="mpd3"></div>
+        <span class="mslbl" id="mslbl">1 / 3 — Personal info</span>
+      </div>
+
+      <div class="msuccess" id="msuccess">
+        <div class="ms-icon">✓</div>
+        <div class="ms-title">Profile submitted!</div>
+        <div class="ms-text">Our team will review it within 2–3 business days.</div>
+      </div>
+
+      <!-- PAGE 1 -->
+      <div class="mpage active" id="mp1">
+        <div class="mrow2">
+          <div class="mf"><label class="ml">Full name <span class="req">*</span></label><input type="text" placeholder="As in your ID"></div>
+          <div class="mf"><label class="ml">Date of birth <span class="req">*</span></label><input type="date"></div>
+        </div>
+        <div class="mrow2">
+          <div class="mf"><label class="ml">Country of citizenship <span class="req">*</span></label><input type="text" placeholder="e.g. Ukraine"></div>
+          <div class="mf"><label class="ml">Country of location <span class="req">*</span></label><input type="text" placeholder="e.g. Poland"></div>
+        </div>
+        <div class="mf"><label class="ml">Registered full address <span class="req">*</span></label><input type="text" placeholder="Street, building, city, postal code, country"><span class="mnote">For internal records only — not shown on your public profile</span></div>
+        <div class="mf"><label class="ml">Gender <span class="req">*</span></label>
+          <div class="pills">
+            <div class="pill"><input type="radio" name="g" id="g1" value="Female"><label for="g1">Female</label></div>
+            <div class="pill"><input type="radio" name="g" id="g2" value="Male"><label for="g2">Male</label></div>
+            <div class="pill"><input type="radio" name="g" id="g3" value="Non-binary"><label for="g3">Non-binary</label></div>
+          </div>
+        </div>
+        <div class="mf"><label class="ml">Languages of service <span class="req">*</span></label>
+          <div class="pills">
+            <div class="pill"><input type="checkbox" id="la"><label for="la">English</label></div>
+            <div class="pill"><input type="checkbox" id="lb"><label for="lb">Spanish</label></div>
+            <div class="pill"><input type="checkbox" id="lc"><label for="lc">French</label></div>
+            <div class="pill"><input type="checkbox" id="ld"><label for="ld">Japanese</label></div>
+            <div class="pill"><input type="checkbox" id="le"><label for="le">Portuguese</label></div>
+            <div class="pill"><input type="checkbox" id="lf"><label for="lf">Chinese</label></div>
+            <div class="pill"><input type="checkbox" id="lg"><label for="lg">Other</label></div>
+          </div>
+        </div>
+        <div class="mnav"><div></div><button class="btn btn-pu" style="margin-top:0" onclick="mGo(2)">Continue →</button></div>
+      </div>
+
+      <!-- PAGE 2 -->
+      <div class="mpage" id="mp2">
+        <div class="mrow2">
+          <div class="mf"><label class="ml">Display nickname <span class="req">*</span></label><input type="text" placeholder="Unique pseudonym"><span class="mnote">Not your real name. Unique to Nebula only.</span></div>
+          <div class="mf"><label class="ml">Years of experience <span class="req">*</span></label><input type="number" placeholder="e.g. 5" min="0" max="50"></div>
+        </div>
+        <div class="mf"><label class="ml">Astrology type <span class="req">*</span></label>
+          <div class="pills">
+            <div class="pill"><input type="radio" name="astr" id="a1" value="Vedic"><label for="a1">Vedic</label></div>
+            <div class="pill"><input type="radio" name="astr" id="a2" value="Western"><label for="a2">Western</label></div>
+            <div class="pill"><input type="radio" name="astr" id="a3" value="Both"><label for="a3">Both</label></div>
+          </div>
+        </div>
+        <div class="mf"><label class="ml">Expert in <span class="req">*</span></label>
+          <div class="pills">
+            <div class="pill"><input type="checkbox" id="e1"><label for="e1">Western Astrology</label></div>
+            <div class="pill"><input type="checkbox" id="e2"><label for="e2">Vedic Astrology</label></div>
+            <div class="pill"><input type="checkbox" id="e3"><label for="e3">Psychology</label></div>
+            <div class="pill"><input type="checkbox" id="e4"><label for="e4">Numerology</label></div>
+            <div class="pill"><input type="checkbox" id="e5"><label for="e5">Tarot</label></div>
+            <div class="pill"><input type="checkbox" id="e6"><label for="e6">Psychic</label></div>
+            <div class="pill"><input type="checkbox" id="e7"><label for="e7">Clairvoyance</label></div>
+            <div class="pill"><input type="checkbox" id="e8"><label for="e8">Angel Readings</label></div>
+            <div class="pill"><input type="checkbox" id="e9"><label for="e9">Spirituality</label></div>
+            <div class="pill"><input type="checkbox" id="e10"><label for="e10">Occult Readings</label></div>
+          </div>
+        </div>
+        <div class="mf"><label class="ml">Life spheres <span class="req">*</span></label>
+          <div class="pills">
+            <div class="pill"><input type="checkbox" id="s1"><label for="s1">Love</label></div>
+            <div class="pill"><input type="checkbox" id="s2"><label for="s2">Relationship</label></div>
+            <div class="pill"><input type="checkbox" id="s3"><label for="s3">Career</label></div>
+            <div class="pill"><input type="checkbox" id="s4"><label for="s4">Business</label></div>
+            <div class="pill"><input type="checkbox" id="s5"><label for="s5">Finances</label></div>
+            <div class="pill"><input type="checkbox" id="s6"><label for="s6">Family</label></div>
+            <div class="pill"><input type="checkbox" id="s7"><label for="s7">Personal development</label></div>
+            <div class="pill"><input type="checkbox" id="s8"><label for="s8">Spiritual development</label></div>
+            <div class="pill"><input type="checkbox" id="s9"><label for="s9">Health</label></div>
+          </div>
+        </div>
+        <div class="mf"><label class="ml">Your slogan <span class="req">*</span></label><input type="text" placeholder="A short memorable phrase…"></div>
+        <div class="mf"><label class="ml">Profile description <span class="req">*</span></label><textarea rows="5" placeholder="Share your expertise and invite users to start a chat. 300–500 words."></textarea></div>
+        <div class="mf"><label class="ml">Portrait photo <span class="req">*</span></label>
+          <div class="uzone"><input type="file" accept="image/jpeg,image/png" onchange="mFile(this,'fn1')"><div class="uicon">🖼</div><div class="ut">Drop or <strong>browse</strong></div><div class="uh">JPG/PNG · min 600×720px · 1:1 square · not AI-generated</div><div class="ufn" id="fn1"></div></div>
+        </div>
+        <div class="mf"><label class="ml">Identity document <span class="req">*</span></label>
+          <div class="uzone"><input type="file" accept="image/jpeg,image/png,application/pdf" onchange="mFile(this,'fn2')"><div class="uicon">🪪</div><div class="ut">Drop or <strong>browse</strong></div><div class="uh">ID card · passport · driver's license · clearly readable</div><div class="ufn" id="fn2"></div></div>
+          <span class="mnote">Candidates from India: please upload at least 2 valid documents.</span>
+        </div>
+        <div class="mnav"><button class="btn btn-out" style="margin-top:0" onclick="mGo(1)">← Back</button><button class="btn btn-pu" style="margin-top:0" onclick="mGo(3)">Continue →</button></div>
+      </div>
+
+      <!-- PAGE 3 -->
+      <div class="mpage" id="mp3">
+        <div class="mf"><label class="ml">Payment method <span class="req">*</span></label>
+          <div class="popts">
+            <div class="popt"><input type="radio" name="pay" id="p1" value="Payoneer" onchange="mPay('payoneer')"><label for="p1"><div class="pi">🟢</div><div><div class="pn">Payoneer</div><div class="pd">Recommended · fast international transfers</div></div></label></div>
+            <div class="popt"><input type="radio" name="pay" id="p2" value="PayPal" onchange="mPay('paypal')"><label for="p2"><div class="pi">🔵</div><div><div class="pn">PayPal</div><div class="pd">Available in most countries</div></div></label></div>
+            <div class="popt"><input type="radio" name="pay" id="p3" value="Wire" onchange="mPay('wire')"><label for="p3"><div class="pi">🏦</div><div><div class="pn">Wire Transfer</div><div class="pd">Bank transfer in USD</div></div></label></div>
+          </div>
+        </div>
+        <div id="fpayoneer" style="display:none"><div class="fdiv"></div>
+          <div class="mrow2">
+            <div class="mf"><label class="ml">Payoneer email <span class="req">*</span></label><input type="email" placeholder="your@email.com"></div>
+            <div class="mf"><label class="ml">Recipient name <span class="req">*</span></label><input type="text" placeholder="Full name on account"></div>
+          </div>
+          <span class="mnote">⚠ Account must be registered in your name.</span>
+        </div>
+        <div id="fpaypal" style="display:none"><div class="fdiv"></div>
+          <div class="mf"><label class="ml">PayPal email <span class="req">*</span></label><input type="email" placeholder="your@paypal.com"></div>
+        </div>
+        <div id="fpwire" style="display:none"><div class="fdiv"></div>
+          <div class="mrow2">
+            <div class="mf"><label class="ml">Bank name <span class="req">*</span></label><input type="text" placeholder="e.g. Deutsche Bank"></div>
+            <div class="mf"><label class="ml">Account holder <span class="req">*</span></label><input type="text" placeholder="As on bank account"></div>
+          </div>
+          <div class="mrow2">
+            <div class="mf"><label class="ml">IBAN <span class="req">*</span></label><input type="text" placeholder="IBAN or account number"></div>
+            <div class="mf"><label class="ml">SWIFT / BIC <span class="req">*</span></label><input type="text" placeholder="e.g. DEUTDEDB"></div>
+          </div>
+        </div>
+        <div class="mnav">
+          <button class="btn btn-out" style="margin-top:0" onclick="mGo(2)">← Back</button>
+          <button class="btn btn-go" style="margin-top:0" onclick="mSubmit()">Submit profile ✦</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const WEB_APP_URL = 'YOUR_WEB_APP_URL';
+const params = new URLSearchParams(location.search);
+const userEmail = params.get('email') || '';
+
+async function init() {
+  if (!userEmail) { showErr(); return; }
+  try {
+    const res = await fetch(WEB_APP_URL + '?email=' + encodeURIComponent(userEmail));
+    const d = await res.json();
+    if (d.error) throw new Error(d.error);
+    render(d);
+  } catch(e) {
+    render({
+      firstName: params.get('name') || 'Newcomer',
+      startDate: params.get('start') || '—',
+      deadline:  params.get('deadline') || '—',
+      corpEmail: params.get('corp') || '—',
+      profileActivated:'', twoFAStatus:'', lmsPart1:'', lmsPart2:'', profileForm:''
+    });
+  }
+}
+
+function showErr() {
+  document.getElementById('loadingEl').innerHTML =
+    '<div style="color:#F06050;font-size:13px">Invalid portal link.<br><span style="color:#666;font-size:11px">Please use the link from your onboarding email.</span></div>';
+}
+
+function render(d) {
+  document.getElementById('loadingEl').style.display = 'none';
+  document.getElementById('portal').style.display = 'block';
+
+  const name = d.firstName || 'Newcomer';
+  document.getElementById('topName').textContent    = name;
+  document.getElementById('heroName').textContent   = name;
+  document.getElementById('heroStart').textContent  = d.startDate || '—';
+  document.getElementById('heroDl').textContent     = d.deadline  || '—';
+  document.getElementById('previewName').textContent = name;
+  document.getElementById('corpDisplay').textContent = d.corpEmail || '—';
+
+  // Status badge
+  const activated = ['✔️','true','Done','Activated'].includes(d.profileActivated);
+  const badge = document.getElementById('statusBadge');
+  badge.classList.remove('loading');
+  if (activated) {
+    badge.classList.add('activated');
+    document.getElementById('statusText').textContent = '✦ Profile Activated';
+    document.getElementById('readSt').className = 'readiness-st approved';
+    document.getElementById('readSt').textContent = '✓ Your profile is live!';
+  } else {
+    badge.classList.add('progress');
+    document.getElementById('statusText').textContent = 'In Progress';
+  }
+
+  // 2FA
+  if (['✔️','Verified','Done','Completed'].includes(d.twoFAStatus)) {
+    setDone('b1','pt1');
+  }
+
+  // LMS
+  const l1 = ['✔️','Done','Completed'].includes(d.lmsPart1);
+  const l2 = ['✔️','Done','Completed'].includes(d.lmsPart2);
+  if (l1) { setLms('lms1'); setLms('lms2'); }
+  if (l2) { setLms('lms3'); setLms('lms4'); }
+  if (l1 && l2) setDone('b2','pt2');
+  else if (l1 || l2) { document.getElementById('b2').className='badge progress'; document.getElementById('b2').textContent='In progress'; }
+
+  // Profile form
+  if (['✔️','Submitted','Done'].includes(d.profileForm)) setDone('b3','pt3');
+}
+
+function setDone(bId, ptId) {
+  const b = document.getElementById(bId);
+  if(b){ b.className='badge done'; b.textContent='Done'; }
+  const pt = document.getElementById(ptId);
+  if(pt){ pt.classList.remove('active'); pt.classList.add('done'); }
+}
+function setLms(id) {
+  const el = document.getElementById(id);
+  if(el){ el.className='lms-badge done'; el.textContent='Done'; }
+}
+
+function tog(id) { document.getElementById(id).classList.toggle('open'); }
+
+// Modal
+let mStep=1;
+const mLbls=['','1 / 3 — Personal info','2 / 3 — Expert profile','3 / 3 — Payment'];
+function openModal(){ document.getElementById('overlay').classList.add('open'); document.body.style.overflow='hidden'; }
+function closeModal(){ document.getElementById('overlay').classList.remove('open'); document.body.style.overflow=''; }
+function closeOut(e){ if(e.target===document.getElementById('overlay')) closeModal(); }
+function mGo(s){
+  document.getElementById('mp'+mStep).classList.remove('active');
+  document.getElementById('mp'+s).classList.add('active');
+  for(let i=1;i<=3;i++){
+    const d=document.getElementById('mpd'+i);
+    d.classList.remove('active','done');
+    if(i<s) d.classList.add('done');
+    if(i===s) d.classList.add('active');
+  }
+  document.getElementById('mslbl').textContent=mLbls[s];
+  mStep=s;
+  document.querySelector('.modal').scrollTop=0;
+}
+function mFile(inp,id){ if(inp.files&&inp.files[0]) document.getElementById(id).textContent='✓ '+inp.files[0].name; }
+function mPay(t){ ['payoneer','paypal','wire'].forEach(x=>{ document.getElementById('fp'+x).style.display=x===t?'block':'none'; }); }
+function mSubmit(){
+  document.getElementById('mp3').classList.remove('active');
+  document.getElementById('msuccess').style.display='block';
+  document.getElementById('mprog').style.display='none';
+  setDone('b3','pt3');
+}
+
+init();
+</script>
+</body>
+</html>
