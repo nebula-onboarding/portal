@@ -702,35 +702,45 @@ textarea { resize:vertical; min-height:88px }
       <!-- PAGE 3 -->
       <div class="mpage" id="mp3">
         <div class="mf"><label class="ml">Payment method <span class="req">*</span></label>
-          <div class="popts" id="payOptsList">
-            <div class="popt" id="popt_payoneer" onclick="selectPay('payoneer')" style="cursor:pointer">
-              <input type="radio" name="pay" id="p1" value="Payoneer" style="display:none">
-              <label style="pointer-events:none"><div class="pi">🟢</div><div><div class="pn">Payoneer</div><div class="pd">Recommended · fast international transfers</div></div></label>
+          <div style="display:flex;flex-direction:column;gap:8px">
+
+            <div id="pay_payoneer" onclick="selectPay('payoneer')" style="display:flex;align-items:center;gap:11px;padding:12px 14px;background:#0d0e16;border:.5px solid #444;border-radius:10px;cursor:pointer;transition:all .2s">
+              <div style="width:28px;height:28px;border-radius:7px;background:#1e2130;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0">🟢</div>
+              <div><div style="font-size:12px;font-weight:500;color:#F4F4E6">Payoneer</div><div style="font-size:10px;color:#666">Recommended · fast international transfers</div></div>
             </div>
-            <div class="popt" id="popt_paypal" onclick="selectPay('paypal')" style="cursor:pointer">
-              <input type="radio" name="pay" id="p2" value="PayPal" style="display:none">
-              <label style="pointer-events:none"><div class="pi">🔵</div><div><div class="pn">PayPal</div><div class="pd">Available in most countries</div></div></label>
+
+            <div id="pay_paypal" onclick="selectPay('paypal')" style="display:flex;align-items:center;gap:11px;padding:12px 14px;background:#0d0e16;border:.5px solid #444;border-radius:10px;cursor:pointer;transition:all .2s">
+              <div style="width:28px;height:28px;border-radius:7px;background:#1e2130;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0">🔵</div>
+              <div><div style="font-size:12px;font-weight:500;color:#F4F4E6">PayPal</div><div style="font-size:10px;color:#666">Available in most countries</div></div>
             </div>
-            <div class="popt" id="popt_wire" onclick="selectPay('wire')" style="cursor:pointer">
-              <input type="radio" name="pay" id="p3" value="Wire" style="display:none">
-              <label style="pointer-events:none"><div class="pi">🏦</div><div><div class="pn">Wire Transfer</div><div class="pd">Bank transfer in USD</div></div></label>
+
+            <div id="pay_wire" onclick="selectPay('wire')" style="display:flex;align-items:center;gap:11px;padding:12px 14px;background:#0d0e16;border:.5px solid #444;border-radius:10px;cursor:pointer;transition:all .2s">
+              <div style="width:28px;height:28px;border-radius:7px;background:#1e2130;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0">🏦</div>
+              <div><div style="font-size:12px;font-weight:500;color:#F4F4E6">Wire Transfer</div><div style="font-size:10px;color:#666">Bank transfer in USD</div></div>
             </div>
+
           </div>
         </div>
-        <div id="fpayoneer" style="display:none">
-          <div class="fdiv"></div>
+
+        <!-- Hidden field to store selected method -->
+        <input type="hidden" id="selectedPayMethod" value="">
+
+        <div id="fpayoneer" style="display:none;margin-top:4px">
+          <div style="height:.5px;background:#333;margin:4px 0"></div>
           <div class="mrow2">
             <div class="mf"><label class="ml">Payoneer email <span class="req">*</span></label><input type="email" id="payoneer_email" placeholder="your@email.com"></div>
             <div class="mf"><label class="ml">Recipient name <span class="req">*</span></label><input type="text" id="payoneer_name" placeholder="Full name on account"></div>
           </div>
           <span class="mnote">⚠ Account must be registered in your name.</span>
         </div>
-        <div id="fpaypal" style="display:none">
-          <div class="fdiv"></div>
+
+        <div id="fpaypal" style="display:none;margin-top:4px">
+          <div style="height:.5px;background:#333;margin:4px 0"></div>
           <div class="mf"><label class="ml">PayPal email <span class="req">*</span></label><input type="email" id="paypal_email" placeholder="your@paypal.com"></div>
         </div>
-        <div id="fpwire" style="display:none">
-          <div class="fdiv"></div>
+
+        <div id="fpwire" style="display:none;margin-top:4px">
+          <div style="height:.5px;background:#333;margin:4px 0"></div>
           <div class="mrow2">
             <div class="mf"><label class="ml">Bank name <span class="req">*</span></label><input type="text" id="wire_bank" placeholder="e.g. Deutsche Bank"></div>
             <div class="mf"><label class="ml">Account holder <span class="req">*</span></label><input type="text" id="wire_holder" placeholder="As on bank account"></div>
@@ -740,6 +750,7 @@ textarea { resize:vertical; min-height:88px }
             <div class="mf"><label class="ml">SWIFT / BIC <span class="req">*</span></label><input type="text" id="wire_swift" placeholder="e.g. DEUTDEDB"></div>
           </div>
         </div>
+
         <div class="mnav">
           <button class="btn btn-out" style="margin-top:0" onclick="mGo(2)">← Back</button>
           <button class="btn btn-go" style="margin-top:0" onclick="mSubmit()">Submit profile ✦</button>
@@ -910,25 +921,23 @@ function validatePage(page) {
   }
 
   if (page === 3) {
-    if (!document.querySelector('#mp3 input[name=pay]:checked')) {
-      showError('Please select a payment method.'); return false;
-    }
-    const method = document.querySelector('#mp3 input[name=pay]:checked').value;
-    if (method === 'Payoneer') {
-      const e = document.getElementById('payoneer_email');
-      const n = document.getElementById('payoneer_name');
+    var method = (document.getElementById('selectedPayMethod')||{}).value || '';
+    if (!method) { showError('Please select a payment method.'); return false; }
+    if (method === 'payoneer') {
+      var e = document.getElementById('payoneer_email');
+      var n = document.getElementById('payoneer_name');
       if (!e||!e.value.trim()||!n||!n.value.trim()) { showError('Please fill in your Payoneer details.'); return false; }
     }
-    if (method === 'PayPal') {
-      const e = document.getElementById('paypal_email');
-      if (!e||!e.value.trim()) { showError('Please enter your PayPal email.'); return false; }
+    if (method === 'paypal') {
+      var ep = document.getElementById('paypal_email');
+      if (!ep||!ep.value.trim()) { showError('Please enter your PayPal email.'); return false; }
     }
-    if (method === 'Wire') {
-      const b = document.getElementById('wire_bank');
-      const h = document.getElementById('wire_holder');
-      const i = document.getElementById('wire_iban');
-      const s = document.getElementById('wire_swift');
-      if (!b||!b.value.trim()||!h||!h.value.trim()||!i||!i.value.trim()||!s||!s.value.trim()) {
+    if (method === 'wire') {
+      var b = document.getElementById('wire_bank');
+      var h = document.getElementById('wire_holder');
+      var iv = document.getElementById('wire_iban');
+      var sw = document.getElementById('wire_swift');
+      if (!b||!b.value.trim()||!h||!h.value.trim()||!iv||!iv.value.trim()||!sw||!sw.value.trim()) {
         showError('Please fill in all bank details.'); return false;
       }
     }
@@ -961,23 +970,21 @@ function mGo(s){
 }
 function mFile(inp,id){ if(inp.files&&inp.files[0]) document.getElementById(id).textContent='✓ '+inp.files[0].name; }
 function selectPay(t) {
-  // Знімаємо виділення з усіх
-  ['payoneer','paypal','wire'].forEach(x => {
-    const opt = document.getElementById('popt_'+x);
-    const radio = document.getElementById(x === 'payoneer' ? 'p1' : x === 'paypal' ? 'p2' : 'p3');
+  // Скидаємо всі
+  ['payoneer','paypal','wire'].forEach(function(x) {
+    var opt = document.getElementById('pay_'+x);
     if (opt) opt.style.borderColor = '#444';
-    if (radio) radio.checked = false;
-    const fields = document.getElementById('fp'+x);
+    var fields = document.getElementById('fp'+x);
     if (fields) fields.style.display = 'none';
   });
-  // Виділяємо обраний
-  const selOpt = document.getElementById('popt_'+t);
-  const selRadio = document.getElementById(t === 'payoneer' ? 'p1' : t === 'paypal' ? 'p2' : 'p3');
-  if (selOpt) selOpt.style.borderColor = '#6F70F6';
-  if (selRadio) selRadio.checked = true;
+  // Виділяємо вибраний
+  var sel = document.getElementById('pay_'+t);
+  if (sel) sel.style.borderColor = '#6F70F6';
   // Показуємо поля
-  const fields = document.getElementById('fp'+t);
-  if (fields) fields.style.display = 'block';
+  var f = document.getElementById('fp'+t);
+  if (f) f.style.display = 'block';
+  // Зберігаємо вибір
+  document.getElementById('selectedPayMethod').value = t;
   clearError();
 }
 function mPay(t){ selectPay(t); }
@@ -1015,7 +1022,7 @@ function mSubmit(){
     slogan:      document.querySelectorAll('#mp2 input[type=text]')[1]?.value || '',
     description: document.querySelector('#mp2 textarea')?.value || '',
     // Page 3
-    payMethod:   getChecked('pay'),
+    payMethod:   (document.getElementById('selectedPayMethod')||{}).value||'',
     payoneerEmail: (document.getElementById('payoneer_email')||{}).value||'',
     payoneerName:  (document.getElementById('payoneer_name')||{}).value||'',
     paypalEmail:   (document.getElementById('paypal_email')||{}).value||'',
