@@ -703,9 +703,18 @@ textarea { resize:vertical; min-height:88px }
       <div class="mpage" id="mp3">
         <div class="mf"><label class="ml">Payment method <span class="req">*</span></label>
           <div class="popts">
-            <div class="popt"><input type="radio" name="pay" id="p1" value="Payoneer"><label for="p1" onclick="mPay('payoneer')"><div class="pi">🟢</div><div><div class="pn">Payoneer</div><div class="pd">Recommended · fast international transfers</div></div></label></div>
-            <div class="popt"><input type="radio" name="pay" id="p2" value="PayPal"><label for="p2" onclick="mPay('paypal')"><div class="pi">🔵</div><div><div class="pn">PayPal</div><div class="pd">Available in most countries</div></div></label></div>
-            <div class="popt"><input type="radio" name="pay" id="p3" value="Wire"><label for="p3" onclick="mPay('wire')"><div class="pi">🏦</div><div><div class="pn">Wire Transfer</div><div class="pd">Bank transfer in USD</div></div></label></div>
+            <div class="popt" onclick="selectPay('payoneer')">
+              <input type="radio" name="pay" id="p1" value="Payoneer">
+              <label for="p1"><div class="pi">🟢</div><div><div class="pn">Payoneer</div><div class="pd">Recommended · fast international transfers</div></div></label>
+            </div>
+            <div class="popt" onclick="selectPay('paypal')">
+              <input type="radio" name="pay" id="p2" value="PayPal">
+              <label for="p2"><div class="pi">🔵</div><div><div class="pn">PayPal</div><div class="pd">Available in most countries</div></div></label>
+            </div>
+            <div class="popt" onclick="selectPay('wire')">
+              <input type="radio" name="pay" id="p3" value="Wire">
+              <label for="p3"><div class="pi">🏦</div><div><div class="pn">Wire Transfer</div><div class="pd">Bank transfer in USD</div></div></label>
+            </div>
           </div>
         </div>
         <div id="fpayoneer" style="display:none"><div class="fdiv"></div>
@@ -952,13 +961,17 @@ function mGo(s){
   document.querySelector('.modal').scrollTop=0;
 }
 function mFile(inp,id){ if(inp.files&&inp.files[0]) document.getElementById(id).textContent='✓ '+inp.files[0].name; }
-function mPay(t){
-  setTimeout(function(){
-    ['payoneer','paypal','wire'].forEach(x=>{
-      document.getElementById('fp'+x).style.display = x===t ? 'block' : 'none';
-    });
-  }, 10);
+function selectPay(t) {
+  // Вручну ставимо radio checked
+  const map = { payoneer: 'p1', paypal: 'p2', wire: 'p3' };
+  const radio = document.getElementById(map[t]);
+  if (radio) radio.checked = true;
+  // Показуємо потрібні поля
+  ['payoneer','paypal','wire'].forEach(x => {
+    document.getElementById('fp'+x).style.display = x === t ? 'block' : 'none';
+  });
 }
+function mPay(t){ selectPay(t); }
 
 function mSubmit(){
   if (!validatePage(3)) return;
