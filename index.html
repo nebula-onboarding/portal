@@ -702,16 +702,16 @@ textarea { resize:vertical; min-height:88px }
       <!-- PAGE 3 -->
       <div class="mpage" id="mp3">
         <div class="mf"><label class="ml">Payment method <span class="req">*</span></label>
-          <div style="display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;flex-direction:column;gap:8px">
 
             <!-- PAYONEER -->
-            <div style="border:.5px solid #444;border-radius:12px;overflow:hidden;transition:border-color .2s" id="pay_payoneer">
-              <div onclick="selectPay('payoneer')" style="display:flex;align-items:center;gap:11px;padding:12px 14px;background:#0d0e16;cursor:pointer">
+            <div id="pay_payoneer" onclick="selectPay('payoneer')" style="border:.5px solid #444;border-radius:12px;overflow:hidden;cursor:pointer;transition:border-color .2s">
+              <div style="display:flex;align-items:center;gap:11px;padding:12px 14px;background:#0d0e16">
                 <div style="width:28px;height:28px;border-radius:7px;background:#1e2130;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0">🟢</div>
                 <div style="flex:1"><div style="font-size:12px;font-weight:500;color:#F4F4E6">Payoneer</div><div style="font-size:10px;color:#666">Recommended · fast international transfers</div></div>
-                <div style="font-size:10px;color:#666" id="check_payoneer"></div>
+                <div style="font-size:10px;color:#57FFA7;font-weight:600" id="check_payoneer"></div>
               </div>
-              <div id="fpayoneer" style="display:none;padding:12px 14px;background:#11121f;border-top:.5px solid #333">
+              <div id="fpayoneer" style="display:none;padding:12px 14px;background:#11121f;border-top:.5px solid #333" onclick="event.stopPropagation()">
                 <div class="mrow2" style="margin-bottom:8px">
                   <div class="mf"><label class="ml">Payoneer email <span class="req">*</span></label><input type="email" id="payoneer_email" placeholder="your@email.com"></div>
                   <div class="mf"><label class="ml">Recipient name <span class="req">*</span></label><input type="text" id="payoneer_name" placeholder="Full name on account"></div>
@@ -721,33 +721,20 @@ textarea { resize:vertical; min-height:88px }
             </div>
 
             <!-- PAYPAL -->
-            <div style="border:.5px solid #444;border-radius:12px;overflow:hidden;transition:border-color .2s" id="pay_paypal">
-              <div onclick="selectPay('paypal')" style="display:flex;align-items:center;gap:11px;padding:12px 14px;background:#0d0e16;cursor:pointer">
+            <div id="pay_paypal" onclick="selectPay('paypal')" style="border:.5px solid #444;border-radius:12px;cursor:pointer;transition:border-color .2s">
+              <div style="display:flex;align-items:center;gap:11px;padding:12px 14px;background:#0d0e16;border-radius:12px">
                 <div style="width:28px;height:28px;border-radius:7px;background:#1e2130;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0">🔵</div>
                 <div style="flex:1"><div style="font-size:12px;font-weight:500;color:#F4F4E6">PayPal</div><div style="font-size:10px;color:#666">Available in most countries</div></div>
-                <div style="font-size:10px;color:#666" id="check_paypal"></div>
-              </div>
-              <div id="fpaypal" style="display:none;padding:12px 14px;background:#11121f;border-top:.5px solid #333">
-                <div class="mf"><label class="ml">PayPal email <span class="req">*</span></label><input type="email" id="paypal_email" placeholder="your@paypal.com"></div>
+                <div style="font-size:10px;color:#57FFA7;font-weight:600" id="check_paypal"></div>
               </div>
             </div>
 
             <!-- WIRE TRANSFER -->
-            <div style="border:.5px solid #444;border-radius:12px;overflow:hidden;transition:border-color .2s" id="pay_wire">
-              <div onclick="selectPay('wire')" style="display:flex;align-items:center;gap:11px;padding:12px 14px;background:#0d0e16;cursor:pointer">
+            <div id="pay_wire" onclick="selectPay('wire')" style="border:.5px solid #444;border-radius:12px;cursor:pointer;transition:border-color .2s">
+              <div style="display:flex;align-items:center;gap:11px;padding:12px 14px;background:#0d0e16;border-radius:12px">
                 <div style="width:28px;height:28px;border-radius:7px;background:#1e2130;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0">🏦</div>
                 <div style="flex:1"><div style="font-size:12px;font-weight:500;color:#F4F4E6">Wire Transfer</div><div style="font-size:10px;color:#666">Bank transfer in USD</div></div>
-                <div style="font-size:10px;color:#666" id="check_wire"></div>
-              </div>
-              <div id="fpwire" style="display:none;padding:12px 14px;background:#11121f;border-top:.5px solid #333">
-                <div class="mrow2" style="margin-bottom:8px">
-                  <div class="mf"><label class="ml">Bank name <span class="req">*</span></label><input type="text" id="wire_bank" placeholder="e.g. Deutsche Bank"></div>
-                  <div class="mf"><label class="ml">Account holder <span class="req">*</span></label><input type="text" id="wire_holder" placeholder="As on bank account"></div>
-                </div>
-                <div class="mrow2">
-                  <div class="mf"><label class="ml">IBAN <span class="req">*</span></label><input type="text" id="wire_iban" placeholder="IBAN or account number"></div>
-                  <div class="mf"><label class="ml">SWIFT / BIC <span class="req">*</span></label><input type="text" id="wire_swift" placeholder="e.g. DEUTDEDB"></div>
-                </div>
+                <div style="font-size:10px;color:#57FFA7;font-weight:600" id="check_wire"></div>
               </div>
             </div>
 
@@ -933,19 +920,6 @@ function validatePage(page) {
       var n = document.getElementById('payoneer_name');
       if (!e||!e.value.trim()||!n||!n.value.trim()) { showError('Please fill in your Payoneer details.'); return false; }
     }
-    if (method === 'paypal') {
-      var ep = document.getElementById('paypal_email');
-      if (!ep||!ep.value.trim()) { showError('Please enter your PayPal email.'); return false; }
-    }
-    if (method === 'wire') {
-      var b = document.getElementById('wire_bank');
-      var h = document.getElementById('wire_holder');
-      var iv = document.getElementById('wire_iban');
-      var sw = document.getElementById('wire_swift');
-      if (!b||!b.value.trim()||!h||!h.value.trim()||!iv||!iv.value.trim()||!sw||!sw.value.trim()) {
-        showError('Please fill in all bank details.'); return false;
-      }
-    }
   }
 
   return true;
@@ -975,21 +949,20 @@ function mGo(s){
 }
 function mFile(inp,id){ if(inp.files&&inp.files[0]) document.getElementById(id).textContent='✓ '+inp.files[0].name; }
 function selectPay(t) {
-  var methods = ['payoneer','paypal','wire'];
-  methods.forEach(function(x) {
+  ['payoneer','paypal','wire'].forEach(function(x) {
     var card = document.getElementById('pay_'+x);
-    var fields = document.getElementById('fp'+x);
     var check = document.getElementById('check_'+x);
     if (card) card.style.borderColor = '#444';
-    if (fields) fields.style.display = 'none';
     if (check) check.textContent = '';
   });
-  var selCard = document.getElementById('pay_'+t);
-  var selFields = document.getElementById('fp'+t);
-  var selCheck = document.getElementById('check_'+t);
-  if (selCard) selCard.style.borderColor = '#6F70F6';
-  if (selFields) selFields.style.display = 'block';
-  if (selCheck) selCheck.textContent = '✓ selected';
+  // Показуємо поля тільки для Payoneer
+  var fp = document.getElementById('fpayoneer');
+  if (fp) fp.style.display = t === 'payoneer' ? 'block' : 'none';
+  // Виділяємо обраний
+  var sel = document.getElementById('pay_'+t);
+  var check = document.getElementById('check_'+t);
+  if (sel) sel.style.borderColor = '#6F70F6';
+  if (check) check.textContent = '✓';
   document.getElementById('selectedPayMethod').value = t;
   clearError();
 }
