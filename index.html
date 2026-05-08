@@ -427,32 +427,50 @@ textarea { resize:vertical; min-height:88px }
           <div class="al"></div>
           <div class="warn-title">⚠️ Common mistake — please read first</div>
           <div class="warn-text">
-            You must log in using your <strong>Nebula corporate account</strong>, not your personal Google account.<br>
-            Your corporate login: <strong id="corpDisplay">—</strong><br><br>
-            Sign in at <strong>nebula-expert.com/login</strong> (not gmail.com directly)
+            You must log in using your <strong>Nebula corporate account</strong>, not your personal Google account.<br><br>
+            Use the button below → click <strong>"Use another account"</strong> → enter your corporate email
           </div>
         </div>
         <div class="steps-list">
           <div class="step-item">
             <div class="nc">1</div>
-            <div><div class="step-text">Go to <strong>nebula-expert.com/login</strong> → sign in with your corporate email and temporary password</div><div class="step-note">Make sure you are NOT signed into a personal Google account in this browser tab</div></div>
+            <div>
+              <div class="step-text">Click <strong>Open Google Space</strong> below → click <strong>"Use another account"</strong> → enter your corporate email and temporary password</div>
+              <div class="step-note">Your corporate login: <strong id="corpDisplay">—</strong></div>
+            </div>
           </div>
           <div class="step-item">
             <div class="nc">2</div>
-            <div><div class="step-text">Change your temporary password to a personal one you will remember</div><div class="step-note">You will also use this to log into NebulaX</div></div>
+            <div>
+              <div class="step-text">Create a new secure password on your first login</div>
+              <div class="step-note">Save it — you'll need it later for NebulaX</div>
+            </div>
           </div>
           <div class="step-item">
             <div class="nc">3</div>
-            <div><div class="step-text">Enable <strong>2-Factor Authentication (2FA)</strong></div><div class="step-note">Google Account → Security → 2-Step Verification → add your phone number</div></div>
+            <div>
+              <div class="step-text">Go to <strong>Security settings</strong> and enable <strong>2-Step Verification</strong></div>
+              <div class="step-note">Google Account → Security → 2-Step Verification → add your phone number</div>
+            </div>
           </div>
           <div class="step-item">
             <div class="nc">4</div>
-            <div><div class="step-text">Send us a screenshot confirming 2FA is active</div><div class="step-note">Reply to the corporate email access letter we sent you</div></div>
+            <div>
+              <div class="step-text">Send us a screenshot confirming 2FA is active</div>
+              <div class="step-note">Reply to the corporate email access letter we sent you</div>
+            </div>
           </div>
         </div>
-        <div class="info-box">
+        <div class="warn-box" style="margin-top:12px">
           <div class="al"></div>
-          ⚠️ <strong>Without active 2FA we cannot activate your profile.</strong> This is the most common blocker — please complete it first.
+          <div class="warn-text">⚠️ Without enabling 2FA and verifying your corporate email, we won't be able to complete your onboarding and activate your profile.</div>
+        </div>
+        <div class="info-box" style="margin-top:10px">
+          <div class="al"></div>
+          <strong>ℹ️ Why is this important:</strong><br>
+          • This is an essential step because you'll later use this email to log in to <strong>NebulaX</strong> (our internal CRM system, where you'll work with clients)<br>
+          • Your corporate email is used only for logging in to Google Space and NebulaX<br>
+          • It cannot send or receive messages — all communication will continue via your personal email
         </div>
         <a href="https://accounts.google.com/AccountChooser" target="_blank" class="btn btn-pu">Open Google Space ↗</a>
       </div>
@@ -757,7 +775,8 @@ function render(d) {
   document.getElementById('heroStart').textContent  = d.startDate || '—';
   document.getElementById('heroDl').textContent     = d.deadline  || '—';
   document.getElementById('previewName').textContent = name;
-  document.getElementById('corpDisplay').textContent = d.corpEmail || '—';
+  const corpEl = document.getElementById('corpDisplay');
+  if (corpEl) corpEl.textContent = d.corpEmail || '—';
 
   // Status badge
   const activated = ['✔️','true','Done','Activated'].includes(d.profileActivated);
