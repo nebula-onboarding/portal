@@ -404,9 +404,8 @@ textarea { resize:vertical; min-height:88px }
       <div class="step-track">
         <div class="st active" id="pt1"><div class="st-label">01</div><div class="st-name">Corp Email & 2FA</div></div>
         <div class="st"       id="pt2"><div class="st-label">02</div><div class="st-name">LearnUpon Courses</div></div>
-        <div class="st"       id="pt3"><div class="st-label">03</div><div class="st-name">Profile Form</div></div>
-        <div class="st"       id="pt4"><div class="st-label">04</div><div class="st-name">AI Simulator</div></div>
-        <div class="st"       id="pt5"><div class="st-label">05</div><div class="st-name">Readiness Check</div></div>
+        <div class="st"       id="pt3"><div class="st-label">03</div><div class="st-name">Create Your Profile</div></div>
+        <div class="st"       id="pt4"><div class="st-label">04</div><div class="st-name">Readiness Check</div></div>
       </div>
     </div>
   </div>
@@ -464,7 +463,7 @@ textarea { resize:vertical; min-height:88px }
       <div class="card-head" onclick="tog('c2')">
         <div class="card-hl">
           <div class="card-icon" style="background:rgba(92,206,255,.1)">📚</div>
-          <div><div class="card-title">Onboarding Courses</div><div class="card-sub">Complete all 4 courses in LearnUpon</div></div>
+          <div><div class="card-title">Onboarding Courses</div><div class="card-sub">Complete all courses in LearnUpon</div></div>
         </div>
         <div class="card-right"><span class="badge todo" id="b2">To do</span><span class="card-arr">▼</span></div>
       </div>
@@ -509,41 +508,20 @@ textarea { resize:vertical; min-height:88px }
       </div>
     </div>
 
-    <!-- 4. AI Simulator -->
+    <!-- 4. Readiness Check -->
     <div class="card" id="c4">
       <div class="card-head" onclick="tog('c4')">
-        <div class="card-hl">
-          <div class="card-icon" style="background:rgba(255,72,255,.1)">🤖</div>
-          <div><div class="card-title">AI Chat Simulator</div><div class="card-sub">Practice before your first real chat</div></div>
-        </div>
-        <div class="card-right"><span class="badge todo" id="b4">To do</span><span class="card-arr">▼</span></div>
-      </div>
-      <div class="card-body">
-        <div class="sim-block">
-          <div class="sim-icon">🤖</div>
-          <div>
-            <div class="sim-title">AI Trial Chat Simulator</div>
-            <div class="sim-desc">Practice real chat scenarios before your first shift. Replicates actual user interactions so you feel confident from Day 1.</div>
-            <a href="YOUR_SIMULATOR_LINK" target="_blank" class="btn btn-ma" style="margin-top:12px">Launch Simulator ↗</a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 5. Readiness Check -->
-    <div class="card" id="c5">
-      <div class="card-head" onclick="tog('c5')">
         <div class="card-hl">
           <div class="card-icon" style="background:rgba(87,255,167,.08)">✅</div>
           <div><div class="card-title">Readiness Check</div><div class="card-sub">Final review by our team → profile activation</div></div>
         </div>
-        <div class="card-right"><span class="badge todo" id="b5">Pending</span><span class="card-arr">▼</span></div>
+        <div class="card-right"><span class="badge todo" id="b4">Pending</span><span class="card-arr">▼</span></div>
       </div>
       <div class="card-body">
         <div class="readiness-block">
           <div class="readiness-icon">🔍</div>
           <div class="readiness-title">Our team reviews your progress</div>
-          <div class="readiness-text">Once you complete Steps 1–4, the onboarding team checks everything: 2FA confirmation, courses, profile form, and simulator. If all is good — your profile gets activated within 1 business day.</div>
+          <div class="readiness-text">Once you complete steps 1–3, the onboarding team checks everything: 2FA confirmation, courses, and profile form. If all is good — your profile gets activated within 1 business day.</div>
           <div class="readiness-st wait" id="readSt">⏳ Waiting for steps to be completed</div>
         </div>
         <div class="info-box" style="margin-top:12px">
@@ -759,7 +737,7 @@ async function init() {
       startDate: params.get('start') || '—',
       deadline:  params.get('deadline') || '—',
       corpEmail: params.get('corp') || '—',
-      profileActivated:'', twoFAStatus:'', lmsPart1:'', lmsPart2:'', profileForm:''
+      profileActivated:'', twoFAStatus:'', lms:'', profileForm:''
     });
   }
 }
@@ -800,16 +778,18 @@ function render(d) {
     setDone('b1','pt1');
   }
 
-  // LMS
-  const l1 = ['✔️','Done','Completed'].includes(d.lmsPart1);
-  const l2 = ['✔️','Done','Completed'].includes(d.lmsPart2);
-  if (l1) { setLms('lms1'); setLms('lms2'); }
-  if (l2) { setLms('lms3'); setLms('lms4'); }
-  if (l1 && l2) setDone('b2','pt2');
-  else if (l1 || l2) { document.getElementById('b2').className='badge progress'; document.getElementById('b2').textContent='In progress'; }
+  // LMS — одна колонка
+  const lmsDone = ['✔️','Done','Completed'].includes(d.lms);
+  if (lmsDone) {
+    setDone('b2','pt2');
+    ['lms1','lms2','lms3','lms4'].forEach(id => setLms(id));
+  }
 
   // Profile form
   if (['✔️','Submitted','Done'].includes(d.profileForm)) setDone('b3','pt3');
+
+  // Readiness — якщо профіль активовано
+  if (activated) setDone('b4','pt4');
 }
 
 function setDone(bId, ptId) {
