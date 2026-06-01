@@ -271,53 +271,14 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
   <div class="tab-row" id="tabRow"></div>
 
   <div class="two-col">
+
+    <!-- LEFT: Tasks + Contact -->
     <div class="col-stack">
 
       <!-- TASKS GRID -->
       <div>
         <div class="tasks-section-label">TASKS — CLICK ANY CARD TO OPEN</div>
         <div class="tasks-grid" id="tasksGrid"></div>
-      </div>
-
-    </div>
-    <div class="col-stack">
-
-      <!-- ACTIVATION STATUS -->
-      <div class="activation-card">
-        <div class="activation-label">
-          Profile Activation Status
-        </div>
-        <div class="activation-inner" id="activationInner">
-          <div class="activation-icon-wrap" id="activationIcon" style="background:rgba(255,198,10,.1)">⏳</div>
-          <div class="activation-body">
-            <div class="activation-title" id="activationTitle">Profile not activated yet</div>
-            <div class="activation-sub" id="activationSub">Complete all required tasks to activate your profile</div>
-          </div>
-          <div class="activation-badge ab-notactive" id="activationBadge">⊙ Not activated</div>
-        </div>
-        <div class="remaining-chips" id="remainingChips"></div>
-      </div>
-
-      <!-- DEADLINE -->
-      <div class="deadline-card" id="deadlineCard">
-        <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--text3);margin-bottom:12px;display:flex;align-items:center;gap:8px">
-          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-          Onboarding deadline
-        </div>
-        <div class="deadline-inner">
-          <div class="deadline-cal">
-            <div class="deadline-month" id="dlMonth">—</div>
-            <div class="deadline-day" id="dlDay">—</div>
-          </div>
-          <div class="deadline-info">
-            <div class="deadline-date" id="dlFull">—</div>
-            <div class="deadline-sub" id="dlWeekday">Thursday · End of day</div>
-          </div>
-        </div>
-        <div class="deadline-remaining" id="dlRemaining">
-          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-          <span id="dlRemainingText">—</span>
-        </div>
       </div>
 
       <!-- CONTACT -->
@@ -348,6 +309,50 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
           Write a message
         </a>
       </div>
+
+    </div>
+
+    <!-- RIGHT: Deadline + Activation -->
+    <div class="col-stack">
+
+      <!-- DEADLINE -->
+      <div class="deadline-card" id="deadlineCard">
+        <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--text3);margin-bottom:12px;display:flex;align-items:center;gap:8px">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          Onboarding deadline
+        </div>
+        <div class="deadline-inner">
+          <div class="deadline-cal">
+            <div class="deadline-month" id="dlMonth">—</div>
+            <div class="deadline-day" id="dlDay">—</div>
+          </div>
+          <div class="deadline-info">
+            <div class="deadline-date" id="dlFull">—</div>
+            <div class="deadline-sub" id="dlWeekday">Thursday · End of day</div>
+          </div>
+        </div>
+        <div class="deadline-remaining" id="dlRemaining">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          <span id="dlRemainingText">—</span>
+        </div>
+      </div>
+
+      <!-- ACTIVATION STATUS -->
+      <div class="activation-card">
+        <div class="activation-label">
+          Profile Activation Status
+        </div>
+        <div class="activation-inner" id="activationInner">
+          <div class="activation-icon-wrap" id="activationIcon" style="background:rgba(255,198,10,.1)">⏳</div>
+          <div class="activation-body">
+            <div class="activation-title" id="activationTitle">Profile not activated yet</div>
+            <div class="activation-sub" id="activationSub">Complete all required tasks to activate your profile</div>
+          </div>
+          <div class="activation-badge ab-notactive" id="activationBadge">⊙ Not activated</div>
+        </div>
+        <div class="remaining-chips" id="remainingChips"></div>
+      </div>
+
 
     </div>
   </div>
@@ -622,7 +627,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 </div>
 
 <script>
-const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbx6RjT8-dI7BJ3Cf85ADfQ-0kkP38Ok9rTIgwt6rEQPPOQ45w1lKjvZh-YayQ5tyl6e/exec';
+const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzMBdQi-YLmCdaMWrcs7vDSIUt-41m9pilWRgokULDoMt49KYpZbggud9CIM53IhOlt/exec';
 const params = new URLSearchParams(location.search);
 const userEmail = params.get('email') || '';
 
