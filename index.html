@@ -39,7 +39,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 /* TOPBAR */
 .topbar{position:sticky;top:0;z-index:200;background:rgba(244,244,230,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--bd);padding:0 28px;height:52px;display:flex;align-items:center;justify-content:space-between}
 .tlogo{display:flex;align-items:center;gap:8px}
-.tlogo img{height:20px}
+.tlogo img{height:20px;filter:brightness(0) saturate(100%) invert(9%) sepia(15%) saturate(800%) hue-rotate(200deg) brightness(90%) contrast(95%)}
 .tlogo-name{font-size:15px;font-weight:500;letter-spacing:.01em;color:var(--text)}
 .tuser{font-size:12px;color:var(--text3)}
 .tuser strong{color:var(--text);font-weight:600}
@@ -279,6 +279,25 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
         <div class="tasks-grid" id="tasksGrid"></div>
       </div>
 
+    </div>
+    <div class="col-stack">
+
+      <!-- ACTIVATION STATUS -->
+      <div class="activation-card">
+        <div class="activation-label">
+          Profile Activation Status
+        </div>
+        <div class="activation-inner" id="activationInner">
+          <div class="activation-icon-wrap" id="activationIcon" style="background:rgba(255,198,10,.1)">⏳</div>
+          <div class="activation-body">
+            <div class="activation-title" id="activationTitle">Profile not activated yet</div>
+            <div class="activation-sub" id="activationSub">Complete all required tasks to activate your profile</div>
+          </div>
+          <div class="activation-badge ab-notactive" id="activationBadge">⊙ Not activated</div>
+        </div>
+        <div class="remaining-chips" id="remainingChips"></div>
+      </div>
+
       <!-- DEADLINE -->
       <div class="deadline-card" id="deadlineCard">
         <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--text3);margin-bottom:12px;display:flex;align-items:center;gap:8px">
@@ -299,25 +318,6 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
           <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
           <span id="dlRemainingText">—</span>
         </div>
-      </div>
-
-    </div>
-    <div class="col-stack">
-
-      <!-- ACTIVATION STATUS -->
-      <div class="activation-card">
-        <div class="activation-label">
-          Profile Activation Status
-        </div>
-        <div class="activation-inner" id="activationInner">
-          <div class="activation-icon-wrap" id="activationIcon" style="background:rgba(255,198,10,.1)">⏳</div>
-          <div class="activation-body">
-            <div class="activation-title" id="activationTitle">Profile not activated yet</div>
-            <div class="activation-sub" id="activationSub">Complete all required tasks to activate your profile</div>
-          </div>
-          <div class="activation-badge ab-notactive" id="activationBadge">⊙ Not activated</div>
-        </div>
-        <div class="remaining-chips" id="remainingChips"></div>
       </div>
 
       <!-- CONTACT -->
@@ -343,7 +343,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
             Mon-Fri, 8:00–16:00 GMT
           </div>
         </div>
-        <a href="mailto:onboarding@asknebula.com" class="btn-msg">
+        <a href="https://mail.google.com/mail/?view=cm&to=onboarding@asknebula.com" target="_blank" class="btn-msg">
           <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
           Write a message
         </a>
@@ -695,7 +695,7 @@ function render(d){
       const dayNum = Math.floor((today - start)/(1000*60*60*24))+1;
       const totalDays = deadline ? Math.round((deadline-start)/(1000*60*60*24))+1 : 30;
       const weekNum = Math.ceil(dayNum/7);
-      dayInfo = 'Day '+Math.max(1,dayNum)+' of '+totalDays+' · Week '+weekNum;
+      dayInfo = 'Day '+Math.max(1,dayNum)+' of '+totalDays;
     }
   }
   document.getElementById('heroDayInfo').textContent = dayInfo || 'Onboarding in progress';
@@ -704,12 +704,15 @@ function render(d){
   renderDeadline(deadlineStr);
 
   // Task statuses from sheet
+  // Column mapping: R=twoFAStatus, S=scheduleStatus, T=profileForm, U=lmsStatus, AV=aiTrialScore, AW=aiRetainedScore
   const statusMap = {
-    twofa:    d.twoFAStatus,
-    profile:  d.profileForm,
-    schedule: d.scheduleStatus,
-    courses:  d.lmsStatus,
-    aisim:    (isDone(d.aiTrialScore) && isDone(d.aiRetainedScore)) ? 'Done' : (d.aiTrialScore || d.aiRetainedScore || ''),
+    twofa:    d.twoFAStatus,      // col R
+    profile:  d.profileForm,      // col T
+    schedule: d.scheduleStatus,   // col S
+    courses:  d.lmsStatus,        // col U
+    aisim:    (isDone(d.aiTrialScore) && isDone(d.aiRetainedScore))
+                ? 'Done'
+                : (d.aiTrialScore || d.aiRetainedScore || ''), // cols AV+AW
   };
 
   const pending = getPendingSet();
@@ -776,7 +779,7 @@ function renderTaskCard(task, isDone, isPending){
   let statusClass = 'ts-notdone', statusText='Not completed';
   let cardClass = 'task-card';
   if(isDone){ statusClass='ts-done'; statusText='✓ Completed'; cardClass='task-card done-card'; }
-  else if(isPending){ statusClass='ts-pending'; statusText='• In progress'; cardClass='task-card pending-card'; }
+  else if(isPending){ statusClass='ts-pending'; statusText='• Pending review'; cardClass='task-card pending-card'; }
   card.className = cardClass;
   card.onclick = ()=>openModal(task.modalKey);
   card.innerHTML = `
@@ -809,7 +812,7 @@ function updateModalStatus(id, isDone, isPending){
   const el = document.getElementById('modalStatus_'+id);
   if(!el) return;
   if(isDone){ el.className='modal-status ts-done'; el.textContent='✓ Completed'; }
-  else if(isPending){ el.className='modal-status ts-pending'; el.textContent='• In progress'; }
+  else if(isPending){ el.className='modal-status ts-pending'; el.textContent='• Pending review'; }
   else{ el.className='modal-status ts-notdone'; el.textContent='Not completed'; }
 }
 
@@ -896,11 +899,11 @@ function markPending(taskId){
   if(taskEl && !taskEl.classList.contains('done-card')){
     taskEl.className='task-card pending-card';
     taskEl.querySelector('.task-status').className='task-status ts-pending';
-    taskEl.querySelector('.task-status').textContent='• In progress';
+    taskEl.querySelector('.task-status').textContent='• Pending review';
   }
   if(pillEl && !pillEl.classList.contains('done')){
     pillEl.className='tab-pill active-tab';
-    pillEl.textContent='• '+TASKS.find(t=>t.id===taskId).label;
+    pillEl.textContent='• '+TASKS.find(t=>t.id===taskId).label; // pending review
   }
   if(modalEl && !modalEl.classList.contains('ts-done')){
     modalEl.className='modal-status ts-pending';
