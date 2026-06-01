@@ -4,156 +4,217 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Nebula — Onboarding Portal</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Georgia&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#0d0e16;--card:#151821;--card2:#1a1c2a;--bd:#252736;--bd2:#333348;
-  --cr:#F4F4E6;--g9:#8888aa;--g6:#555570;--g4:#3a3a50;
-  --pu:#6F70F6;--cy:#5CCEFF;--mi:#57FFA7;--go:#FFC60A;--co:#F06050;--ma:#C084FC;
-  --r:16px;
+  --bg:#F4F4E6;
+  --bg2:#EEEEE0;
+  --surface:#FFFFFF;
+  --surface2:#F8F8F2;
+  --bd:#DDDDDD;
+  --bd2:#CCCCCC;
+  --text:#151821;
+  --text2:#434343;
+  --text3:#666666;
+  --pu:#6F70F6;
+  --pu-light:rgba(111,112,246,.1);
+  --pu-mid:rgba(111,112,246,.2);
+  --cy:#5CCEFF;
+  --cy-light:rgba(92,206,255,.1);
+  --mi:#3CA86E;
+  --mi-light:rgba(87,255,167,.12);
+  --mi-border:rgba(60,168,110,.25);
+  --go:#C9960A;
+  --go-light:rgba(255,198,10,.1);
+  --co:#D04030;
+  --co-light:rgba(240,96,80,.08);
+  --co-border:rgba(208,64,48,.2);
+  --r:14px;
+  --shadow:0 1px 3px rgba(0,0,0,.08), 0 4px 12px rgba(0,0,0,.05);
+  --shadow-md:0 4px 16px rgba(0,0,0,.1), 0 1px 4px rgba(0,0,0,.06);
 }
-body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--cr);min-height:100vh;font-size:13px}
-body::before{content:'';position:fixed;inset:0;background:
-  radial-gradient(ellipse 800px 600px at 70% -10%,rgba(111,112,246,.06) 0%,transparent 60%),
-  radial-gradient(ellipse 600px 500px at -10% 80%,rgba(92,206,255,.04) 0%,transparent 60%);
-  pointer-events:none;z-index:0}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:13px;line-height:1.5}
 
 /* TOPBAR */
-.topbar{position:sticky;top:0;z-index:100;background:rgba(13,14,22,.9);backdrop-filter:blur(16px);
-  border-bottom:.5px solid var(--bd);padding:0 28px;height:52px;
-  display:flex;align-items:center;justify-content:space-between}
+.topbar{position:sticky;top:0;z-index:200;background:rgba(244,244,230,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--bd);padding:0 28px;height:52px;display:flex;align-items:center;justify-content:space-between}
 .tlogo{display:flex;align-items:center;gap:8px}
-.tlogo img{height:20px;opacity:.9}
-.tuser{font-size:12px;color:var(--g6)}
-.tuser strong{color:var(--cr);font-weight:500}
-
-/* HERO */
-.hero{position:relative;z-index:1;padding:36px 28px 0}
-.hero-inner{max-width:820px;margin:0 auto}
-.hero-top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:28px;flex-wrap:wrap}
-.hero-label{font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--g6);margin-bottom:10px}
-.hero-name{font-family:Georgia,serif;font-size:32px;font-weight:400;color:var(--cr);margin-bottom:6px;line-height:1.1}
-.hero-dates{font-size:12px;color:var(--g6);display:flex;gap:16px;flex-wrap:wrap}
-.hero-dates span{color:var(--cr);font-weight:500}
-
-/* STATUS BADGE */
-.sbadge{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:100px;border:.5px solid;font-size:12px;font-weight:500;flex-shrink:0;white-space:nowrap}
-.sbadge.loading{background:rgba(255,255,255,.03);border-color:var(--bd);color:var(--g6)}
-.sbadge.progress{background:rgba(111,112,246,.08);border-color:rgba(111,112,246,.25);color:var(--pu)}
-.sbadge.activated{background:rgba(87,255,167,.07);border-color:rgba(87,255,167,.2);color:var(--mi)}
-.sdot{width:6px;height:6px;border-radius:50%;background:currentColor}
-.sdot.pulse{animation:pulse 2.5s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-
-/* STEP TRACK */
-.step-track{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;max-width:820px;margin:0 auto 0}
-.st{background:var(--card);border:.5px solid var(--bd);border-radius:14px;padding:14px 16px;
-  cursor:pointer;transition:border-color .2s,background .2s;position:relative;overflow:hidden}
-.st:hover{border-color:var(--bd2);background:var(--card2)}
-.st.active{border-color:rgba(111,112,246,.5);background:rgba(111,112,246,.05)}
-.st.done{border-color:rgba(87,255,167,.3);background:rgba(87,255,167,.03)}
-.st.done::after{content:'✓';position:absolute;top:10px;right:12px;font-size:11px;font-weight:700;color:var(--mi)}
-.st-emoji{font-size:18px;margin-bottom:6px;display:block}
-.st-name{font-size:11px;font-weight:500;color:var(--cr);line-height:1.3}
-.st.active .st-name{color:var(--pu)}
-.st.done .st-name{color:var(--g9)}
-
-/* DIVIDER */
-.hero-divider{max-width:820px;margin:24px auto 0;height:.5px;background:var(--bd)}
-
-/* MAIN */
-.main{position:relative;z-index:1;max-width:820px;margin:20px auto;padding:0 28px 80px;display:flex;flex-direction:column;gap:10px}
-
-/* CARD */
-.card{background:var(--card);border:.5px solid var(--bd);border-radius:var(--r);overflow:hidden;transition:border-color .2s}
-.card:hover .card-head{background:rgba(255,255,255,.015)}
-.card-head{padding:18px 20px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none;transition:background .15s}
-.card-hl{display:flex;align-items:center;gap:14px}
-.card-emoji{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
-.card-title{font-size:13px;font-weight:600;color:var(--cr)}
-.card-sub{font-size:11px;color:var(--g6);margin-top:2px;line-height:1.4}
-.card-right{display:flex;align-items:center;gap:10px}
-.badge{font-size:10px;font-weight:600;padding:4px 11px;border-radius:20px;letter-spacing:.3px}
-.badge.done{background:rgba(87,255,167,.1);color:var(--mi);border:.5px solid rgba(87,255,167,.2)}
-.badge.progress{background:rgba(111,112,246,.1);color:var(--pu);border:.5px solid rgba(111,112,246,.2)}
-.badge.todo{background:rgba(255,255,255,.04);color:var(--g6);border:.5px solid var(--bd)}
-.badge.pending{background:rgba(255,198,10,.07);color:var(--go);border:.5px solid rgba(255,198,10,.2)}
-.carr{font-size:9px;color:var(--g6);transition:transform .2s;margin-left:2px}
-.card.open .carr{transform:rotate(180deg)}
-.card-body{display:none;padding:0 20px 22px;border-top:.5px solid var(--bd)}
-.card.open .card-body{display:block}
-
-/* BOXES */
-.warn-box{background:rgba(240,96,80,.06);border:.5px solid rgba(240,96,80,.2);border-left:2px solid var(--co);border-radius:10px;padding:13px 15px;margin-top:16px}
-.warn-title{font-size:11px;font-weight:600;color:var(--co);margin-bottom:5px}
-.warn-text{font-size:12px;color:var(--g9);line-height:1.65}
-.warn-text strong{color:var(--cr)}
-.info-box{background:rgba(111,112,246,.05);border:.5px solid rgba(111,112,246,.15);border-left:2px solid var(--pu);border-radius:10px;padding:13px 15px;margin-top:12px;font-size:12px;color:var(--g9);line-height:1.65}
-.info-box strong{color:var(--cr)}
-.mint-box{background:rgba(87,255,167,.04);border:.5px solid rgba(87,255,167,.15);border-left:2px solid var(--mi);border-radius:10px;padding:13px 15px;margin-top:12px;font-size:12px;color:var(--g9);line-height:1.65}
-
-/* STEPS LIST */
-.steps-list{display:flex;flex-direction:column;gap:8px;margin-top:16px}
-.step-item{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:rgba(255,255,255,.025);border:.5px solid var(--bd);border-radius:10px}
-.snum{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0;margin-top:1px}
-.snum.pu{background:rgba(111,112,246,.15);border:.5px solid rgba(111,112,246,.3);color:var(--pu)}
-.snum.cy{background:rgba(92,206,255,.1);border:.5px solid rgba(92,206,255,.2);color:#3aadda}
-.snum.go{background:rgba(255,198,10,.1);border:.5px solid rgba(255,198,10,.2);color:#c9960a}
-.snum.mi{background:rgba(87,255,167,.08);border:.5px solid rgba(87,255,167,.2);color:#2d8a55}
-.step-text{font-size:12px;color:var(--cr);line-height:1.55}
-.step-note{font-size:11px;color:var(--g6);margin-top:3px}
-
-/* BUTTONS */
-.btn{display:inline-flex;align-items:center;gap:7px;margin-top:14px;border-radius:100px;padding:10px 22px;font-family:'Inter',sans-serif;font-size:12px;font-weight:500;cursor:pointer;text-decoration:none;transition:all .2s;border:none;white-space:nowrap}
-.btn-pu{background:var(--pu);color:#fff}
-.btn-pu:hover{opacity:.85;transform:translateY(-1px)}
-.btn-go{background:linear-gradient(135deg,var(--go),#e8c07a);color:#1a1207}
-.btn-go:hover{opacity:.9;transform:translateY(-1px);box-shadow:0 6px 20px rgba(255,198,10,.15)}
-.btn-out{background:transparent;border:.5px solid var(--bd2);color:var(--cr)}
-.btn-out:hover{border-color:var(--pu);color:var(--pu)}
-.btn-ma{background:rgba(192,132,252,.1);border:.5px solid rgba(192,132,252,.3);color:var(--ma)}
-.btn-ma:hover{background:rgba(192,132,252,.18)}
-.btn-cy{background:rgba(92,206,255,.08);border:.5px solid rgba(92,206,255,.25);color:var(--cy)}
-.btn-cy:hover{background:rgba(92,206,255,.15)}
-.btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
-
-/* LMS */
-.lms-list{display:flex;flex-direction:column;gap:7px;margin-top:14px}
-.lms-row{display:flex;align-items:center;gap:12px;padding:11px 14px;background:rgba(255,255,255,.025);border:.5px solid var(--bd);border-radius:10px}
-.lms-emoji{font-size:15px;flex-shrink:0}
-.lms-name{font-size:12px;font-weight:500;color:var(--cr);flex:1}
-.lms-b{font-size:10px;font-weight:600;padding:2px 9px;border-radius:20px}
-.lms-b.done{background:rgba(87,255,167,.1);color:var(--mi)}
-.lms-b.todo{background:rgba(255,255,255,.04);color:var(--g6)}
-
-/* PROFILE CARD */
-.profile-card{display:flex;align-items:center;gap:16px;padding:16px;background:rgba(255,255,255,.025);border:.5px solid var(--bd);border-radius:12px;margin-top:16px}
-.profile-avatar{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,rgba(111,112,246,.2),rgba(192,132,252,.15));border:.5px solid var(--bd2);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
-.profile-name{font-size:14px;font-weight:500;color:var(--cr);margin-bottom:3px}
-.profile-role{font-size:11px;color:var(--g6)}
-
-/* READINESS */
-.readiness-block{text-align:center;padding:24px 16px;background:rgba(255,255,255,.02);border:.5px solid var(--bd);border-radius:12px;margin-top:16px}
-.readiness-icon{font-size:28px;margin-bottom:10px}
-.readiness-title{font-size:13px;font-weight:600;color:var(--cr);margin-bottom:6px}
-.readiness-text{font-size:12px;color:var(--g6);line-height:1.6;max-width:400px;margin:0 auto}
-.readiness-st{display:inline-flex;align-items:center;gap:6px;margin-top:14px;padding:8px 18px;border-radius:100px;font-size:11px;font-weight:500}
-.readiness-st.wait{background:rgba(255,255,255,.04);border:.5px solid var(--bd);color:var(--g6)}
-.readiness-st.approved{background:rgba(87,255,167,.07);border:.5px solid rgba(87,255,167,.2);color:var(--mi)}
+.tlogo img{height:20px}
+.tlogo-name{font-size:15px;font-weight:500;letter-spacing:.01em;color:var(--text)}
+.tuser{font-size:12px;color:var(--text3)}
+.tuser strong{color:var(--text);font-weight:600}
 
 /* LOADING */
-.loading{text-align:center;padding:64px 24px;color:var(--g6);font-size:13px}
-.ldots{display:inline-flex;gap:5px;margin-bottom:14px}
-.ldot{width:6px;height:6px;border-radius:50%;background:var(--pu);animation:ld 1.2s infinite}
+.loading-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;color:var(--text3)}
+.ldots{display:flex;gap:6px;margin-bottom:14px}
+.ldot{width:7px;height:7px;border-radius:50%;background:var(--pu);animation:ld 1.2s infinite}
 .ldot:nth-child(2){animation-delay:.2s}.ldot:nth-child(3){animation-delay:.4s}
-@keyframes ld{0%,80%,100%{opacity:.2;transform:scale(.8)}40%{opacity:1;transform:scale(1)}}
+@keyframes ld{0%,80%,100%{opacity:.25;transform:scale(.8)}40%{opacity:1;transform:scale(1)}}
 
+/* MAIN LAYOUT */
+.portal{max-width:900px;margin:0 auto;padding:28px 24px 80px}
+
+/* HERO HEADER */
+.hero{margin-bottom:24px}
+.hero-top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:20px;flex-wrap:wrap}
+.hero-greeting{font-size:26px;font-weight:700;color:var(--text);margin-bottom:4px;font-family:'Inter',sans-serif}
+.hero-meta{font-size:12px;color:var(--text3);display:flex;gap:4px;align-items:center;flex-wrap:wrap}
+.hero-dot{color:var(--bd2)}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:100px;font-size:12px;font-weight:600;background:var(--surface);border:1.5px solid var(--bd);color:var(--text);box-shadow:var(--shadow);white-space:nowrap;flex-shrink:0}
+.hero-badge.activated{background:var(--mi-light);border-color:var(--mi-border);color:var(--mi)}
+
+/* PROGRESS CARD */
+.progress-card{background:var(--surface);border:1px solid var(--bd);border-radius:var(--r);padding:20px 24px;box-shadow:var(--shadow);margin-bottom:16px}
+.progress-label{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
+.progress-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.progress-pct{font-size:28px;font-weight:700;color:var(--text)}
+.progress-bar-wrap{height:7px;background:var(--bg2);border-radius:100px;overflow:hidden;margin-bottom:10px}
+.progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--pu),#8F90F8);border-radius:100px;transition:width .6s ease}
+.progress-stats{display:flex;gap:16px;flex-wrap:wrap}
+.progress-stat{font-size:12px;color:var(--text3)}
+.progress-stat strong{color:var(--text);font-weight:600}
+
+/* TAB PILLS */
+.tab-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;overflow-x:auto;padding-bottom:4px}
+.tab-pill{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:100px;font-size:12px;font-weight:500;cursor:pointer;border:1.5px solid var(--bd);background:var(--surface);color:var(--text3);white-space:nowrap;transition:all .15s;user-select:none}
+.tab-pill:hover{border-color:var(--pu);color:var(--pu)}
+.tab-pill.done{background:var(--mi-light);border-color:var(--mi-border);color:var(--mi)}
+.tab-pill.active-tab{background:var(--pu-light);border-color:var(--pu);color:var(--pu);font-weight:600}
+.tab-pill.pending-tab{background:rgba(201,150,10,.08);border-color:rgba(201,150,10,.25);color:var(--go)}
+.tab-lock{font-size:10px;opacity:.6}
+
+/* GRID */
+.tasks-section-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--text3);margin-bottom:12px}
+.tasks-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+@media(max-width:680px){.tasks-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:420px){.tasks-grid{grid-template-columns:1fr}}
+
+/* TASK CARD */
+.task-card{background:var(--surface);border:1.5px solid var(--bd);border-radius:var(--r);padding:20px 18px;cursor:pointer;transition:all .15s;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px;position:relative}
+.task-card:hover{border-color:var(--pu);box-shadow:var(--shadow-md);transform:translateY(-1px)}
+.task-card.done-card{border-color:var(--mi-border);background:linear-gradient(145deg,#fff,rgba(87,255,167,.04))}
+.task-card.done-card:hover{border-color:var(--mi)}
+.task-card.pending-card{border-color:rgba(201,150,10,.3);background:rgba(255,198,10,.03)}
+.task-icon-wrap{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.task-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:4px}
+.task-status{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px}
+.ts-notdone{background:rgba(0,0,0,.05);color:var(--text3);border:1px solid var(--bd)}
+.ts-pending{background:rgba(201,150,10,.1);color:var(--go);border:1px solid rgba(201,150,10,.25)}
+.ts-done{background:var(--mi-light);color:var(--mi);border:1px solid var(--mi-border)}
+.task-link{font-size:11px;color:var(--pu);display:flex;align-items:center;gap:4px;margin-top:auto}
+.task-link svg{flex-shrink:0}
+
+/* DEADLINE CARD */
+.deadline-card{background:var(--surface);border:1px solid var(--bd);border-radius:var(--r);padding:20px 24px;box-shadow:var(--shadow);margin-bottom:20px}
+.deadline-inner{display:flex;align-items:flex-start;gap:16px}
+.deadline-cal{width:52px;height:52px;border-radius:10px;background:var(--co-light);border:1.5px solid var(--co-border);display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0}
+.deadline-month{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--co)}
+.deadline-day{font-size:22px;font-weight:700;color:var(--co);line-height:1}
+.deadline-info{}
+.deadline-title{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:8px}
+.deadline-date{font-size:15px;font-weight:600;color:var(--text);margin-bottom:2px}
+.deadline-sub{font-size:12px;color:var(--text3)}
+.deadline-remaining{display:flex;align-items:center;gap:8px;margin-top:14px;padding:10px 14px;border-radius:8px;background:var(--co-light);border:1px solid var(--co-border);font-size:12px;font-weight:500;color:var(--co)}
+
+/* ACTIVATION CARD */
+.activation-card{background:var(--surface);border:1px solid var(--bd);border-radius:var(--r);padding:20px 24px;box-shadow:var(--shadow);margin-bottom:20px}
+.activation-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--text3);margin-bottom:14px;display:flex;align-items:center;justify-content:space-between}
+.activation-inner{display:flex;align-items:flex-start;gap:16px;padding:16px;background:var(--surface2);border:1px solid var(--bd);border-radius:10px}
+.activation-icon-wrap{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.activation-body{flex:1}
+.activation-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px}
+.activation-sub{font-size:12px;color:var(--text3)}
+.activation-badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;padding:6px 14px;border-radius:100px;margin-left:auto;flex-shrink:0}
+.ab-notactive{background:rgba(0,0,0,.05);border:1.5px solid var(--bd);color:var(--text3)}
+.ab-pending{background:rgba(111,112,246,.1);border:1.5px solid var(--pu-mid);color:var(--pu)}
+.ab-active{background:var(--mi-light);border:1.5px solid var(--mi-border);color:var(--mi)}
+.remaining-chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.rchip{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:500;padding:5px 11px;border-radius:100px;background:var(--surface2);border:1.5px solid var(--bd);color:var(--text3)}
+.rchip.chip-done{background:var(--mi-light);border-color:var(--mi-border);color:var(--mi)}
+
+/* CONTACT CARD */
+.contact-card{background:var(--surface);border:1px solid var(--bd);border-radius:var(--r);padding:20px 24px;box-shadow:var(--shadow)}
+.contact-header{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--text3);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.contact-person{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.contact-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--pu-light),rgba(92,206,255,.15));border:1.5px solid var(--bd);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--pu);flex-shrink:0}
+.contact-name{font-size:13px;font-weight:600;color:var(--text)}
+.contact-role{font-size:11px;color:var(--text3)}
+.contact-info{display:flex;flex-direction:column;gap:6px;margin-bottom:14px;padding-top:12px;border-top:1px solid var(--bd)}
+.contact-row{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2)}
+.contact-row a{color:var(--pu);text-decoration:none}
+.contact-row a:hover{text-decoration:underline}
+.btn-msg{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:100px;font-size:12px;font-weight:600;background:var(--surface);border:1.5px solid var(--bd);color:var(--text);cursor:pointer;text-decoration:none;transition:all .15s}
+.btn-msg:hover{border-color:var(--pu);color:var(--pu)}
+
+/* MODAL OVERLAY */
+.modal-overlay{position:fixed;inset:0;background:rgba(21,24,33,.45);backdrop-filter:blur(4px);z-index:500;display:none;align-items:flex-start;justify-content:center;padding:40px 16px;overflow-y:auto}
+.modal-overlay.open{display:flex}
+.modal{background:var(--surface);border-radius:16px;width:100%;max-width:520px;box-shadow:0 20px 60px rgba(0,0,0,.18);margin:auto;overflow:hidden}
+.modal-head{padding:22px 24px 18px;border-bottom:1px solid var(--bd)}
+.modal-head-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:8px}
+.modal-icon-title{display:flex;align-items:center;gap:12px}
+.modal-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.modal-title{font-size:16px;font-weight:700;color:var(--text)}
+.modal-status{font-size:11px;font-weight:600;display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px}
+.modal-close{width:32px;height:32px;border-radius:8px;border:1.5px solid var(--bd);background:var(--surface2);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;font-size:14px;color:var(--text3);transition:all .15s}
+.modal-close:hover{border-color:var(--bd2);background:var(--bg2);color:var(--text)}
+.modal-body{padding:20px 24px}
+.modal-section-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--text3);margin-bottom:12px}
+.modal-steps{display:flex;flex-direction:column;gap:0;margin-bottom:20px}
+.modal-step{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--bd)}
+.modal-step:last-child{border-bottom:none}
+.mstep-num{width:26px;height:26px;border-radius:50%;background:var(--pu-light);border:1.5px solid var(--pu-mid);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--pu);flex-shrink:0;margin-top:1px}
+.mstep-text{font-size:13px;color:var(--text2);line-height:1.55}
+.mstep-note{font-size:11px;color:var(--text3);margin-top:3px}
+.modal-platform-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--text3);margin-bottom:10px}
+.modal-platform-btn{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;border-radius:10px;background:var(--surface2);border:1.5px solid var(--bd);text-decoration:none;transition:all .15s;gap:12px}
+.modal-platform-btn:hover{border-color:var(--pu);background:var(--pu-light)}
+.mpb-left{display:flex;align-items:center;gap:10px}
+.mpb-icon{font-size:16px}
+.mpb-name{font-size:13px;font-weight:600;color:var(--text)}
+.mpb-url{font-size:11px;color:var(--text3)}
+.mpb-arrow{font-size:14px;color:var(--text3)}
+.modal-platform-btn:hover .mpb-arrow{color:var(--pu)}
+.modal-note{background:rgba(240,96,80,.06);border:1px solid var(--co-border);border-left:3px solid var(--co);border-radius:8px;padding:12px 14px;font-size:12px;color:var(--text2);line-height:1.6;margin-top:12px}
+.modal-note strong{color:var(--text)}
+.modal-info{background:var(--pu-light);border:1px solid var(--pu-mid);border-radius:8px;padding:12px 14px;font-size:12px;color:var(--text2);line-height:1.6;margin-bottom:14px}
+.modal-info strong{color:var(--text)}
+.modal-btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px}
+.mbtn{display:inline-flex;align-items:center;gap:7px;padding:11px 22px;border-radius:100px;font-size:12px;font-weight:600;cursor:pointer;text-decoration:none;transition:all .15s;border:none}
+.mbtn-pu{background:var(--pu);color:#fff}
+.mbtn-pu:hover{opacity:.88;transform:translateY(-1px)}
+.mbtn-out{background:transparent;border:1.5px solid var(--bd);color:var(--text)}
+.mbtn-out:hover{border-color:var(--pu);color:var(--pu)}
+.mbtn-go{background:linear-gradient(135deg,#D4A017,#E8C545);color:#1a1207}
+.mbtn-go:hover{opacity:.9;transform:translateY(-1px)}
+.sim-list{display:flex;flex-direction:column;gap:8px}
+.sim-item{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:var(--surface2);border:1.5px solid var(--bd);border-radius:10px;text-decoration:none;transition:all .15s}
+.sim-item:hover{border-color:var(--pu);background:var(--pu-light)}
+.sim-left{display:flex;align-items:center;gap:12px}
+.sim-icon{font-size:18px}
+.sim-name{font-size:13px;font-weight:600;color:var(--text)}
+.sim-desc{font-size:11px;color:var(--text3);margin-top:1px}
+.sim-arrow{font-size:14px;color:var(--text3)}
+.sim-item:hover .sim-arrow{color:var(--pu)}
+.course-list{display:flex;flex-direction:column;gap:8px}
+.course-item{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;background:var(--surface2);border:1.5px solid var(--bd);border-radius:10px;text-decoration:none;transition:all .15s}
+.course-item:hover{border-color:var(--cy);background:var(--cy-light)}
+.course-left{display:flex;align-items:center;gap:10px}
+.course-num{width:28px;height:28px;border-radius:50%;background:var(--cy-light);border:1.5px solid rgba(92,206,255,.3);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#1a7a9a;flex-shrink:0}
+.course-name{font-size:13px;font-weight:500;color:var(--text)}
+.course-arrow{font-size:14px;color:var(--text3)}
+.course-item:hover .course-arrow{color:#1a7a9a}
+
+/* TWO COLUMN LAYOUT */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:640px){.two-col{grid-template-columns:1fr}}
+.col-stack{display:flex;flex-direction:column;gap:16px}
+
+/* RESPONSIVE */
 @media(max-width:640px){
-  .step-track{grid-template-columns:repeat(3,1fr)}
-  .hero-top{flex-direction:column}
-  .main,.hero,.topbar{padding-left:16px;padding-right:16px}
-  .btn-row{flex-direction:column}
+  .portal{padding:16px 16px 60px}
+  .topbar{padding:0 16px}
+  .tab-row{gap:6px}
 }
 </style>
 </head>
@@ -163,245 +224,400 @@ body::before{content:'';position:fixed;inset:0;background:
 <div class="topbar">
   <div class="tlogo">
     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAABFCAYAAAAW0YV7AAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAGYktHRAD/AP8A/6C9p5MAAAAHdElNRQfqBAUHKwtduPbSAAAGMklEQVR42u2bW4hVVRjHf//dOJHOTGEqZSlZWTJd1KKozFJKi9DEsIKCoDKIiIIeJLrgS1oQPYRR0eUlgkgkuiJFvXQlDNJ86GaOFOcQRpLtLelczr+Hvc/hzPVc9j6zm5n+cOAwZ+291m9/a3/rW9+3RqRQGBYq3yVhMx04E1gqcTFwHnAGMAuYAUxLmvcCfwMHbf8C2gPeJbHbVkFiwI4bdnbOTTPEYVIzF0VRsfLddhuwSGKVrWslLgTmAO0N3vYI8KvNV8AHwGeS/4iHaDo6TssHOIoK5cuOB5YBd9isljg1kxHF6rXZA7wuscN2EUAiNXjdwGFYRAKwbC6R9ACwBjgxQ9ChMvAteJvNDonIhs7O5qHrAg7DImAkzQTuBe6HTC1aS73Au8ATseXdNHRN4CgqkDiQbklPEls1GEfYav1s8zh4h6SBjo7GHdqYwFFUxAaJ5cA2YHFOoBXZHAa2SGyzfbRRS48KXDWNVwPPA2flDVulYzZPg7dK+qcRS48IHIYFJLC1UuJVYEHehMPlXtBW4Cnbx+q19IjvoiRASySe+2/CAqgd2GSzEQiqY4OGgJMLTwGeAbrzxqqh6RKbJa12OTRrBDgMi9i022wCVuZNU6dmA1slLajHyoOAJZC4XmIjTYadOWkpsAncXgu6AhyHjJ4DPAx05k3QhG4Hrao1tastLNBtwKV5j7xJdQIPASeNZeUAKo5qLnA3cFzeI0+hKyWtGcvKAUDcQDeSnVcu2RwA/qqjbQjsB/oz6LcduAvoGhM4aXAr2cXIPwFrbdYAzwL7gFJ1A5tfgZeA9eBV4F0Z9X0Z6Mrq5ES12pJ4eSlwcUYdAuyX+NGmD/gS/CywHLSI+JX5GfgseRADtpD4Abg8g75PkNgAfMQIs6YNEHg1qCND4IJNv92G1G+gB9RTfrfiSC5WsjkB+C3D/leC5oVhsWdoiqgN6JK0PMPOsPkNcFfXnMrfoqg4CHToQKKomCXwPPAKoGfoD222F0o6N8PO+oC9Q4Fq7Whsfy8pJJsY4DjQeuAN4Gj1D4GkJcDMDIF3S3zZxHXf2f48w3EsA58/1HkFwBLiqZ1aNn/abLF9sPGrFYKeJLt3eaakdQwJkQNgUUYd7AffB36/+l2tG1dG4nPgHvDebIbktRKzqyOvAJiX9q7AJ8Tr+HagqVxTkn418KHNLeC3SB2MqBu0ojryCoCTU/K+Z/t2m28kpUqhdnTMxXZ5Tb7b9mvpxsY0YIOkSlEgIC6BpHmKJUkDsXHSK8m2ACqBBjK45Qpwd9l5BeBp6e7HjcDroKW2GS2kq0fJFhWbhTYvS9yZAfBsm3VS7LyCOjMjYykArpN4U9JNQBBnPBtTGBYJAgt0jcR2iVvIaPUArbM1KwyLBM141FG0EHgRdIPU+FOUoFTS5cArxEtlZpI4D7hacuYVhNkSjxHnmRpVB+gR4vJq1moHNtg6PoAMJvVgXQS6oonrLgCuagFsWSvAi1tRI5oGXDBSmiUMi0RRkVFSMN20MJcmMQd0W0ZOYZjmk1Sy4ypG2U+4Mp/K3lwKSHID81sFW2EWN7cK+DSgLQwLfQnsfGCZrUUSge19wBfE4WgpSQCc3mJggFNaBbzA9tlAl+0NktYCZ0txglCxGz8A7ARvl3QAyHKLOpp2KYoKfaCswUs2PRInUTt0PQwcJK5htcoAALuBBxVFxX4mdmq2rD7gY/DXDN50GHTQ5hOgp5VPdFxl+21J94AOD19oDQiptVNoHGEB9BFwuNb5j0kBnOiYVGLGjLGdfVBvXXUCSLVgIb/TOLkpYGLVgdMDZ7c7nBiailN6atl46r3DeQ9gvDUpAo/kpaxrpk4WC9uur0oxKYBtjhDvr6cGMPAp8N1UAd4LbCY+DVRTeTmtPtu/A+WcV7LFi/d5yYe4PDKiLzJxpuRT4AXJ39v1ra45APsQ6FHiUza9gxkoAwOo6sDLMF5bR8CHJNlW3f/flAOwdtp+iSHntprV0aMRs2adU3f7PKZ0ASilqSOnUR5OS3nB5gWcq/4HnuyaisCTJ21ZF7CdzXo4UTQVp7QOjGN/JXBP+tukAE4Ooeyz3W97YJRPCUb9jOED7Ljg7ZLtYzbvAG/nCfwvKbhweCOifqYAAAAASUVORK5CYII=" alt="Nebula">
-    <span style="font-size:15px;font-weight:500;letter-spacing:.02em">nebula</span>
+    <span class="tlogo-name">nebula</span>
   </div>
   <div class="tuser">Welcome, <strong id="topName">—</strong></div>
 </div>
 
 <!-- LOADING -->
-<div id="loadingEl" class="loading" style="position:relative;z-index:1">
+<div id="loadingScreen" class="loading-screen">
   <div class="ldots"><div class="ldot"></div><div class="ldot"></div><div class="ldot"></div></div>
-  <div>Loading your portal…</div>
+  <div style="font-size:13px;color:#666">Loading your portal…</div>
 </div>
 
 <!-- PORTAL -->
 <div id="portal" style="display:none">
+<div class="portal">
 
+  <!-- HERO -->
   <div class="hero">
-    <div class="hero-inner">
-      <div class="hero-top">
-        <div>
-          <div class="hero-label">Onboarding Portal</div>
-          <div class="hero-name" id="heroName">—</div>
-          <div class="hero-dates">
-            <div>Start: <span id="heroStart">—</span></div>
-            <div>Deadline: <span id="heroDl">—</span></div>
-          </div>
-        </div>
-        <div class="sbadge loading" id="statusBadge">
-          <div class="sdot pulse"></div>
-          <span id="statusText">Loading…</span>
+    <div class="hero-top">
+      <div>
+        <div class="hero-greeting" id="heroGreeting">Hey, — 👋</div>
+        <div class="hero-meta" id="heroMeta">
+          <span id="heroDayInfo">—</span>
         </div>
       </div>
+      <div class="hero-badge" id="heroBadge">In progress</div>
     </div>
   </div>
 
-  <!-- STEP TRACK -->
-  <div style="position:relative;z-index:1;padding:0 28px;max-width:876px;margin:20px auto 0">
-    <div class="step-track">
-      <div class="st active" id="pt1" onclick="scrollToCard('c1')">
-        <span class="st-emoji">🔐</span>
-        <div class="st-name">Corp Email & 2FA</div>
-      </div>
-      <div class="st" id="pt2" onclick="scrollToCard('c2')">
-        <span class="st-emoji">📚</span>
-        <div class="st-name">LearnUpon Courses</div>
-      </div>
-      <div class="st" id="pt3" onclick="scrollToCard('c3')">
-        <span class="st-emoji">✨</span>
-        <div class="st-name">Create Your Profile</div>
-      </div>
-      <div class="st" id="pt4" onclick="scrollToCard('c4')">
-        <span class="st-emoji">📅</span>
-        <div class="st-name">Set Your Schedule</div>
-      </div>
-      <div class="st" id="pt5" onclick="scrollToCard('c5')">
-        <span class="st-emoji">🌟</span>
-        <div class="st-name">Readiness Check</div>
-      </div>
+  <!-- PROGRESS CARD -->
+  <div class="progress-card">
+    <div class="progress-row">
+      <span style="font-size:13px;font-weight:600;color:var(--text2)">Onboarding progress</span>
+      <span class="progress-pct" id="progressPct">0%</span>
     </div>
-    <div class="hero-divider"></div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progressBar" style="width:0%"></div>
+    </div>
+    <div class="progress-stats">
+      <div class="progress-stat" id="statTasks">—</div>
+      <div class="progress-stat" id="statDays">—</div>
+    </div>
   </div>
 
-  <div class="main">
+  <!-- TAB PILLS -->
+  <div class="tab-row" id="tabRow"></div>
 
-    <!-- 1. Corp Email + 2FA -->
-    <div class="card open" id="c1">
-      <div class="card-head" onclick="tog('c1')">
-        <div class="card-hl">
-          <div class="card-emoji" style="background:rgba(111,112,246,.12)">🔐</div>
-          <div>
-            <div class="card-title">Corporate Email & 2FA</div>
-            <div class="card-sub">Complete first — required for profile activation</div>
-          </div>
-        </div>
-        <div class="card-right"><span class="badge progress" id="b1">In progress</span><span class="carr">▾</span></div>
+  <div class="two-col">
+    <div class="col-stack">
+
+      <!-- TASKS GRID -->
+      <div>
+        <div class="tasks-section-label">TASKS — CLICK ANY CARD TO OPEN</div>
+        <div class="tasks-grid" id="tasksGrid"></div>
       </div>
-      <div class="card-body">
-        <div class="warn-box">
-          <div class="warn-title">⚠ Common mistake — please read first</div>
-          <div class="warn-text">
-            Log in with your <strong>Nebula corporate account</strong>, not your personal Google account.<br>
-            Your corporate login: <strong id="corpDisplay">—</strong>
+
+      <!-- DEADLINE -->
+      <div class="deadline-card" id="deadlineCard">
+        <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--text3);margin-bottom:12px;display:flex;align-items:center;gap:8px">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          Onboarding deadline
+        </div>
+        <div class="deadline-inner">
+          <div class="deadline-cal">
+            <div class="deadline-month" id="dlMonth">—</div>
+            <div class="deadline-day" id="dlDay">—</div>
+          </div>
+          <div class="deadline-info">
+            <div class="deadline-date" id="dlFull">—</div>
+            <div class="deadline-sub" id="dlWeekday">Thursday · End of day</div>
           </div>
         </div>
-        <div class="steps-list">
-          <div class="step-item">
-            <div class="snum pu">1</div>
-            <div>
-              <div class="step-text">Click <strong>Open Google Space</strong> below → <strong>"Use another account"</strong> → sign in with your corporate email and temporary password</div>
-            </div>
+        <div class="deadline-remaining" id="dlRemaining">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          <span id="dlRemainingText">—</span>
+        </div>
+      </div>
+
+    </div>
+    <div class="col-stack">
+
+      <!-- ACTIVATION STATUS -->
+      <div class="activation-card">
+        <div class="activation-label">
+          Profile Activation Status
+        </div>
+        <div class="activation-inner" id="activationInner">
+          <div class="activation-icon-wrap" id="activationIcon" style="background:rgba(255,198,10,.1)">⏳</div>
+          <div class="activation-body">
+            <div class="activation-title" id="activationTitle">Profile not activated yet</div>
+            <div class="activation-sub" id="activationSub">Complete all required tasks to activate your profile</div>
           </div>
-          <div class="step-item">
-            <div class="snum cy">2</div>
-            <div>
-              <div class="step-text">Create a new password on first login</div>
-              <div class="step-note">Save it — you'll need it for NebulaX</div>
-            </div>
-          </div>
-          <div class="step-item">
-            <div class="snum go">3</div>
-            <div>
-              <div class="step-text">Go to <strong>Security settings</strong> → enable <strong>2-Step Verification</strong></div>
-              <div class="step-note">Google Account → Security → 2-Step Verification → add your phone number</div>
-            </div>
-          </div>
-          <div class="step-item">
-            <div class="snum mi">4</div>
-            <div>
-              <div class="step-text">Reply to this email with a screenshot confirming 2FA is active</div>
-            </div>
+          <div class="activation-badge ab-notactive" id="activationBadge">⊙ Not activated</div>
+        </div>
+        <div class="remaining-chips" id="remainingChips"></div>
+      </div>
+
+      <!-- CONTACT -->
+      <div class="contact-card">
+        <div class="contact-header">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5z"/><path d="M3 7l9 6 9-6"/></svg>
+          Onboarding Specialist
+        </div>
+        <div class="contact-person">
+          <div class="contact-avatar">OS</div>
+          <div>
+            <div class="contact-name">Onboarding Specialist</div>
+            <div class="contact-role">People Team</div>
           </div>
         </div>
-        <div class="info-box">
-          ⚠ <strong>Without active 2FA we cannot activate your profile.</strong><br>
-          Your corporate email is for Google Space and NebulaX only — it cannot send or receive messages. All communication continues via your personal email.
+        <div class="contact-info">
+          <div class="contact-row">
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <a href="mailto:onboarding@asknebula.com">onboarding@asknebula.com</a>
+          </div>
+          <div class="contact-row">
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            Mon-Fri, 8:00–16:00 GMT
+          </div>
         </div>
-        <a href="https://accounts.google.com/AccountChooser" target="_blank" class="btn btn-pu">Open Google Space ↗</a>
+        <a href="mailto:onboarding@asknebula.com" class="btn-msg">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Write a message
+        </a>
+      </div>
+
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ====== MODALS ====== -->
+
+<!-- Modal: 2FA Setup -->
+<div class="modal-overlay" id="modal-twofa">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-head-top">
+        <div class="modal-icon-title">
+          <div class="modal-icon" style="background:rgba(111,112,246,.12)">🔐</div>
+          <div>
+            <div class="modal-title">2FA Setup</div>
+            <div id="modalStatus_twofa" class="modal-status ts-notdone" style="margin-top:4px">Not completed</div>
+          </div>
+        </div>
+        <div class="modal-close" onclick="closeModal('twofa')">✕</div>
       </div>
     </div>
-
-    <!-- 2. LearnUpon -->
-    <div class="card" id="c2">
-      <div class="card-head" onclick="tog('c2')">
-        <div class="card-hl">
-          <div class="card-emoji" style="background:rgba(92,206,255,.1)">📚</div>
+    <div class="modal-body">
+      <div class="modal-section-label">HOW TO COMPLETE</div>
+      <div class="modal-steps">
+        <div class="modal-step">
+          <div class="mstep-num">1</div>
           <div>
-            <div class="card-title">Onboarding Courses</div>
-            <div class="card-sub">Complete all courses in LearnUpon</div>
+            <div class="mstep-text">Go to <strong>accounts.google.com</strong> → click <strong>"Use another account"</strong> → sign in with your corporate email and temporary password</div>
           </div>
         </div>
-        <div class="card-right"><span class="badge todo" id="b2">To do</span><span class="carr">▾</span></div>
-      </div>
-      <div class="card-body">
-        <div class="info-box">The LearnUpon invite was sent to your personal email. Check <strong>Spam / Promotions</strong> if you don't see it.</div>
-        <div class="lms-list">
-          <div class="lms-row"><div class="lms-emoji">🌌</div><div class="lms-name">Intro: The Nebula Universe</div><div class="lms-b todo" id="lms1">To do</div></div>
-          <div class="lms-row"><div class="lms-emoji">✨</div><div class="lms-name">Building Your Nebula Profile</div><div class="lms-b todo" id="lms2">To do</div></div>
-          <div class="lms-row"><div class="lms-emoji">⚡</div><div class="lms-name">The Core Nebula</div><div class="lms-b todo" id="lms3">To do</div></div>
-          <div class="lms-row"><div class="lms-emoji">🌐</div><div class="lms-name">The Ecosystem of Nebula</div><div class="lms-b todo" id="lms4">To do</div></div>
-        </div>
-        <a href="https://asknebula.learnupon.com/users/sign_in" target="_blank" class="btn btn-cy">Open LearnUpon ↗</a>
-      </div>
-    </div>
-
-    <!-- 3. Create Your Profile -->
-    <div class="card" id="c3">
-      <div class="card-head" onclick="tog('c3')">
-        <div class="card-hl">
-          <div class="card-emoji" style="background:rgba(192,132,252,.1)">✨</div>
+        <div class="modal-step">
+          <div class="mstep-num">2</div>
           <div>
-            <div class="card-title">Create Your Profile</div>
-            <div class="card-sub">Your public expert card on Nebula</div>
+            <div class="mstep-text">Create a new password on first login — save it, you'll need it for NebulaX</div>
           </div>
         </div>
-        <div class="card-right"><span class="badge todo" id="b3">To do</span><span class="carr">▾</span></div>
-      </div>
-      <div class="card-body">
-        <div class="profile-card">
-          <div class="profile-avatar">👤</div>
+        <div class="modal-step">
+          <div class="mstep-num">3</div>
           <div>
-            <div class="profile-name" id="previewName">Your Expert Profile</div>
-            <div class="profile-role">Photo · Bio · Slogan · Payment info · ID document</div>
+            <div class="mstep-text">Go to <strong>Security settings</strong> → enable <strong>2-Step Verification</strong></div>
           </div>
         </div>
-        <div class="mint-box" style="margin-top:16px">
-          <strong>Two steps to complete your profile:</strong><br>
-          1. Read the profile guidelines to understand what makes a great Nebula profile<br>
-          2. Fill in the secure Google Form with your personal and payment details
-        </div>
-        <div class="btn-row">
-          <a href="https://nebula-onboarding.github.io/portal/guidelines.html" target="_blank" class="btn btn-out">📖 Profile Guidelines ↗</a>
-          <a href="https://forms.gle/e3PvN52sF4CG2bVB8" target="_blank" class="btn btn-go">📝 Fill in Profile Form ✦</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- 4. Set Schedule NebulaX -->
-    <div class="card" id="c4">
-      <div class="card-head" onclick="tog('c4')">
-        <div class="card-hl">
-          <div class="card-emoji" style="background:rgba(255,198,10,.1)">📅</div>
+        <div class="modal-step">
+          <div class="mstep-num">4</div>
           <div>
-            <div class="card-title">Set Your Schedule in NebulaX</div>
-            <div class="card-sub">Plan your availability for the next 4 weeks</div>
+            <div class="mstep-text">Reply to your onboarding email with a screenshot confirming 2FA is active</div>
           </div>
         </div>
-        <div class="card-right"><span class="badge todo" id="b4">To do</span><span class="carr">▾</span></div>
       </div>
-      <div class="card-body">
-        <div class="steps-list">
-          <div class="step-item">
-            <div class="snum pu">1</div>
+      <div class="modal-note">
+        ⚠ <strong>Without active 2FA we cannot activate your profile.</strong><br>Your corporate email is for Google Space and NebulaX only — it cannot send or receive messages. All communication continues via your personal email.
+      </div>
+      <div style="margin-top:16px">
+        <div class="modal-platform-label">PLATFORM</div>
+        <a href="https://accounts.google.com/AccountChooser" target="_blank" class="modal-platform-btn" onclick="markPending('twofa')">
+          <div class="mpb-left">
+            <div class="mpb-icon">🔗</div>
             <div>
-              <div class="step-text">Log in to NebulaX using your <strong>corporate email</strong></div>
-              <div class="step-note">Use the same credentials you set up in Step 1</div>
+              <div class="mpb-name">Google Account — Security</div>
+              <div class="mpb-url">accounts.google.com</div>
             </div>
           </div>
-          <div class="step-item">
-            <div class="snum cy">2</div>
-            <div>
-              <div class="step-text">Navigate to <strong>Schedule</strong> and plan your availability for the next <strong>4 weeks</strong></div>
-              <div class="step-note">This helps us organize advisor availability for upcoming periods</div>
-            </div>
-          </div>
-          <div class="step-item">
-            <div class="snum go">3</div>
-            <div>
-              <div class="step-text">Please take a moment to <strong>plan realistically</strong> — this directly affects your activation</div>
-            </div>
-          </div>
-        </div>
-        <div class="info-box">⚠ <strong>Deadline: Thursday.</strong> Your schedule must be set before your profile can be activated.</div>
-        <a href="https://nebula-expert.com/login" target="_blank" class="btn btn-pu">Open NebulaX ↗</a>
+          <div class="mpb-arrow">→</div>
+        </a>
       </div>
     </div>
+  </div>
+</div>
 
-    <!-- 5. Readiness Check -->
-    <div class="card" id="c5">
-      <div class="card-head" onclick="tog('c5')">
-        <div class="card-hl">
-          <div class="card-emoji" style="background:rgba(87,255,167,.08)">🌟</div>
+<!-- Modal: Profile Creation -->
+<div class="modal-overlay" id="modal-profile">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-head-top">
+        <div class="modal-icon-title">
+          <div class="modal-icon" style="background:rgba(192,132,252,.12)">👤</div>
           <div>
-            <div class="card-title">Readiness Check</div>
-            <div class="card-sub">Final review by our team → profile activation</div>
+            <div class="modal-title">Profile Creation</div>
+            <div id="modalStatus_profile" class="modal-status ts-notdone" style="margin-top:4px">Not completed</div>
           </div>
         </div>
-        <div class="card-right"><span class="badge pending" id="b5">Pending</span><span class="carr">▾</span></div>
-      </div>
-      <div class="card-body">
-        <div class="readiness-block">
-          <div class="readiness-icon">🔍</div>
-          <div class="readiness-title">Our team reviews your progress</div>
-          <div class="readiness-text">Once you complete all steps, the onboarding team verifies everything. If all is good — your profile gets activated within 1 business day.</div>
-          <div class="readiness-st wait" id="readSt">⏳ Waiting for steps to be completed</div>
-        </div>
-        <div class="info-box" style="margin-top:12px">
-          Questions? Reply to any onboarding email or write to <strong>onboarding@asknebula.com</strong>
-        </div>
+        <div class="modal-close" onclick="closeModal('profile')">✕</div>
       </div>
     </div>
+    <div class="modal-body">
+      <div class="modal-info">
+        <strong>Two steps to complete your profile:</strong><br>
+        1. Read the profile guidelines to understand what makes a great Nebula profile<br>
+        2. Fill in the secure Google Form with your personal and payment details
+      </div>
+      <div class="modal-platform-label">LINKS</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <a href="https://nebula-onboarding.github.io/portal/guidelines.html" target="_blank" class="modal-platform-btn" onclick="markPending('profile')">
+          <div class="mpb-left">
+            <div class="mpb-icon">📖</div>
+            <div>
+              <div class="mpb-name">Profile Guidelines</div>
+              <div class="mpb-url">nebula-onboarding.github.io</div>
+            </div>
+          </div>
+          <div class="mpb-arrow">→</div>
+        </a>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdEd374zN4HBB4YdAXc7SILeMQX4l3jtKGORtvDdbBm9fNX0A/viewform" target="_blank" class="modal-platform-btn" onclick="markPending('profile')" style="border-color:rgba(212,160,23,.35);background:rgba(255,198,10,.05)">
+          <div class="mpb-left">
+            <div class="mpb-icon">📝</div>
+            <div>
+              <div class="mpb-name">Fill in the Form</div>
+              <div class="mpb-url">docs.google.com</div>
+            </div>
+          </div>
+          <div class="mpb-arrow">→</div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
 
+<!-- Modal: Learning Courses -->
+<div class="modal-overlay" id="modal-courses">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-head-top">
+        <div class="modal-icon-title">
+          <div class="modal-icon" style="background:rgba(92,206,255,.12)">📚</div>
+          <div>
+            <div class="modal-title">Learning Courses</div>
+            <div id="modalStatus_courses" class="modal-status ts-notdone" style="margin-top:4px">Not completed</div>
+          </div>
+        </div>
+        <div class="modal-close" onclick="closeModal('courses')">✕</div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-info">
+        Complete all assigned courses below. The LearnUpon invite was sent to your personal email — check <strong>Spam / Promotions</strong> if you don't see it.
+      </div>
+      <div class="modal-platform-label">YOUR COURSES</div>
+      <div class="course-list">
+        <a href="#" target="_blank" class="course-item" onclick="markPending('courses')">
+          <div class="course-left">
+            <div class="course-num">1</div>
+            <div class="course-name">Course 1 — Intro to Nebula</div>
+          </div>
+          <div class="course-arrow">→</div>
+        </a>
+        <a href="#" target="_blank" class="course-item" onclick="markPending('courses')">
+          <div class="course-left">
+            <div class="course-num">2</div>
+            <div class="course-name">Course 2 — Your Expert Profile</div>
+          </div>
+          <div class="course-arrow">→</div>
+        </a>
+        <a href="#" target="_blank" class="course-item" onclick="markPending('courses')">
+          <div class="course-left">
+            <div class="course-num">3</div>
+            <div class="course-name">Course 3 — The Nebula Platform</div>
+          </div>
+          <div class="course-arrow">→</div>
+        </a>
+        <a href="#" target="_blank" class="course-item" onclick="markPending('courses')">
+          <div class="course-left">
+            <div class="course-num">4</div>
+            <div class="course-name">Course 4 — Ecosystem & Community</div>
+          </div>
+          <div class="course-arrow">→</div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: AI Simulations -->
+<div class="modal-overlay" id="modal-aisim">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-head-top">
+        <div class="modal-icon-title">
+          <div class="modal-icon" style="background:rgba(240,96,80,.1)">🤖</div>
+          <div>
+            <div class="modal-title">AI Simulations</div>
+            <div id="modalStatus_aisim" class="modal-status ts-notdone" style="margin-top:4px">Not completed</div>
+          </div>
+        </div>
+        <div class="modal-close" onclick="closeModal('aisim')">✕</div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-info">
+        Complete both AI simulations below. These help you practice real conversations in a safe environment before going live.
+      </div>
+      <div class="modal-platform-label">SIMULATIONS</div>
+      <div class="sim-list">
+        <a href="https://nebula-education.github.io/Trial-Chat-Sim-Score/" target="_blank" class="sim-item" onclick="markPending('aisim')">
+          <div class="sim-left">
+            <div class="sim-icon">💬</div>
+            <div>
+              <div class="sim-name">AI Trial Chat Simulation</div>
+              <div class="sim-desc">Practice trial session conversations</div>
+            </div>
+          </div>
+          <div class="sim-arrow">→</div>
+        </a>
+        <a href="https://nebula-education.github.io/Retained-Chat-Sim-Score/" target="_blank" class="sim-item" onclick="markPending('aisim')">
+          <div class="sim-left">
+            <div class="sim-icon">🔁</div>
+            <div>
+              <div class="sim-name">AI Retained Chat Simulation</div>
+              <div class="sim-desc">Practice retained client conversations</div>
+            </div>
+          </div>
+          <div class="sim-arrow">→</div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Schedule Setup -->
+<div class="modal-overlay" id="modal-schedule">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-head-top">
+        <div class="modal-icon-title">
+          <div class="modal-icon" style="background:rgba(255,198,10,.12)">📅</div>
+          <div>
+            <div class="modal-title">Schedule Setup</div>
+            <div id="modalStatus_schedule" class="modal-status ts-notdone" style="margin-top:4px">Not completed</div>
+          </div>
+        </div>
+        <div class="modal-close" onclick="closeModal('schedule')">✕</div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-section-label">HOW TO COMPLETE</div>
+      <div class="modal-steps">
+        <div class="modal-step">
+          <div class="mstep-num">1</div>
+          <div>
+            <div class="mstep-text">Log in to <strong>NebulaX</strong> using your corporate email</div>
+            <div class="mstep-note">Use the same credentials you set up in the 2FA step</div>
+          </div>
+        </div>
+        <div class="modal-step">
+          <div class="mstep-num">2</div>
+          <div>
+            <div class="mstep-text">Navigate to <strong>Schedule</strong> and plan your availability for the next <strong>4 weeks</strong></div>
+            <div class="mstep-note">This helps us organize advisor availability for upcoming periods</div>
+          </div>
+        </div>
+        <div class="modal-step">
+          <div class="mstep-num">3</div>
+          <div>
+            <div class="mstep-text">Please take a moment to <strong>plan realistically</strong> — this directly affects your activation</div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-platform-label">PLATFORM</div>
+      <a href="https://nebula-expert.com/login" target="_blank" class="modal-platform-btn" onclick="markPending('schedule')">
+        <div class="mpb-left">
+          <div class="mpb-icon">🗓</div>
+          <div>
+            <div class="mpb-name">NebulaX — Schedule</div>
+            <div class="mpb-url">nebula-expert.com</div>
+          </div>
+        </div>
+        <div class="mpb-arrow">→</div>
+      </a>
+    </div>
   </div>
 </div>
 
@@ -410,100 +626,297 @@ const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbx6RjT8-dI7BJ3Cf85A
 const params = new URLSearchParams(location.search);
 const userEmail = params.get('email') || '';
 
-async function init() {
-  if (!userEmail) { showErr(); return; }
-  try {
-    const res = await fetch(WEB_APP_URL + '?email=' + encodeURIComponent(userEmail));
+// Task definitions
+const TASKS = [
+  { id:'twofa',    label:'2FA Setup',        icon:'🔐', iconBg:'rgba(111,112,246,.12)',  modalKey:'twofa',    field:'twoFAStatus' },
+  { id:'profile',  label:'Profile Creation', icon:'👤', iconBg:'rgba(192,132,252,.12)', modalKey:'profile',  field:'profileForm' },
+  { id:'schedule', label:'Schedule Setup',   icon:'📅', iconBg:'rgba(255,198,10,.12)',  modalKey:'schedule', field:'scheduleStatus' },
+  { id:'courses',  label:'Courses',          icon:'📚', iconBg:'rgba(92,206,255,.12)',  modalKey:'courses',  field:'lmsStatus' },
+  { id:'aisim',    label:'AI Simulations',   icon:'🤖', iconBg:'rgba(240,96,80,.1)',    modalKey:'aisim',    field:'aiSimStatus' },
+];
+
+// Pending state tracked in sessionStorage
+function getPendingSet(){
+  try{ return new Set(JSON.parse(sessionStorage.getItem('nb_pending')||'[]')); }catch(e){ return new Set(); }
+}
+function savePendingSet(s){
+  sessionStorage.setItem('nb_pending', JSON.stringify([...s]));
+}
+
+const DONE_VALS = ['done','completed','✔','✅','verified','true'];
+function isDone(v){ return DONE_VALS.some(x=>String(v||'').toLowerCase().includes(x)); }
+
+let DATA = {};
+
+async function init(){
+  if(!userEmail){ showErr(); return; }
+  try{
+    const res = await fetch(WEB_APP_URL+'?email='+encodeURIComponent(userEmail));
     const d = await res.json();
-    if (d.error) throw new Error(d.error);
-    render(d);
-  } catch(e) {
-    render({
-      firstName: params.get('name') || 'Newcomer',
-      startDate: params.get('start') || '—',
-      deadline:  params.get('deadline') || '—',
-      corpEmail: params.get('corp') || '—',
-      profileActivated:'', twoFAStatus:'', lms:'',
-      profileForm:'', scheduleStatus:''
-    });
+    if(d.error) throw new Error(d.error);
+    DATA = d;
+  } catch(e){
+    // Fallback from URL params
+    DATA = {
+      firstName:  params.get('name')     || 'Newcomer',
+      startDate:  params.get('start')    || '',
+      deadline:   params.get('deadline') || '',
+      corpEmail:  params.get('corp')     || '',
+      twoFAStatus:'', profileForm:'', scheduleStatus:'', lmsStatus:'', aiSimStatus:'',
+      aiTrialScore:'', aiRetainedScore:'',
+      profileActivated: params.get('activated') || ''
+    };
   }
+  render(DATA);
 }
 
-function showErr() {
-  document.getElementById('loadingEl').innerHTML =
-    '<div style="color:#F06050;font-size:13px">Invalid portal link.<br><span style="color:#555570;font-size:11px">Please use the link from your onboarding email.</span></div>';
+function showErr(){
+  document.getElementById('loadingScreen').innerHTML =
+    '<div style="color:#D04030;font-size:13px;text-align:center">Invalid portal link.<br><span style="color:#888;font-size:11px;margin-top:6px;display:block">Please use the link from your onboarding email.</span></div>';
 }
 
-const DONE_VALS = ['✔️','Done','Completed','Verified','✅'];
-
-function isDone(v) {
-  return DONE_VALS.some(x => String(v||'').trim().includes(x.replace('️','')));
-}
-
-function render(d) {
-  document.getElementById('loadingEl').style.display = 'none';
-  document.getElementById('portal').style.display = 'block';
+function render(d){
+  document.getElementById('loadingScreen').style.display='none';
+  document.getElementById('portal').style.display='block';
 
   const name = d.firstName || 'Newcomer';
-  document.getElementById('topName').textContent    = name;
-  document.getElementById('heroName').textContent   = name;
-  document.getElementById('heroStart').textContent  = d.startDate || '—';
-  document.getElementById('heroDl').textContent     = d.deadline  || '—';
-  document.getElementById('previewName').textContent = name;
-  const corpEl = document.getElementById('corpDisplay');
-  if (corpEl) corpEl.textContent = d.corpEmail || '—';
+  document.getElementById('topName').textContent = name;
+  document.getElementById('heroGreeting').textContent = 'Hey, '+name+' 👋';
 
-  // Profile activated badge
-  const activated = isDone(d.profileActivated);
-  const badge = document.getElementById('statusBadge');
-  badge.classList.remove('loading');
-  if (activated) {
-    badge.classList.add('activated');
-    document.getElementById('statusText').textContent = '✦ Profile Activated';
-    document.getElementById('readSt').className = 'readiness-st approved';
-    document.getElementById('readSt').textContent = '✓ Your profile is live!';
-    setDone('b5','pt5');
-  } else {
-    badge.classList.add('progress');
-    document.getElementById('statusText').textContent = 'In Progress';
+  // Day info
+  const startStr = d.startDate || '';
+  const deadlineStr = d.deadline || '';
+  let dayInfo = '';
+  if(startStr){
+    const start = parseDate(startStr);
+    const deadline = parseDate(deadlineStr);
+    const today = new Date(); today.setHours(0,0,0,0);
+    if(start){
+      const dayNum = Math.floor((today - start)/(1000*60*60*24))+1;
+      const totalDays = deadline ? Math.round((deadline-start)/(1000*60*60*24))+1 : 30;
+      const weekNum = Math.ceil(dayNum/7);
+      dayInfo = 'Day '+Math.max(1,dayNum)+' of '+totalDays+' · Week '+weekNum;
+    }
+  }
+  document.getElementById('heroDayInfo').textContent = dayInfo || 'Onboarding in progress';
+
+  // Deadline block
+  renderDeadline(deadlineStr);
+
+  // Task statuses from sheet
+  const statusMap = {
+    twofa:    d.twoFAStatus,
+    profile:  d.profileForm,
+    schedule: d.scheduleStatus,
+    courses:  d.lmsStatus,
+    aisim:    (isDone(d.aiTrialScore) && isDone(d.aiRetainedScore)) ? 'Done' : (d.aiTrialScore || d.aiRetainedScore || ''),
+  };
+
+  const pending = getPendingSet();
+
+  // Build task cards + tabs
+  let doneCnt = 0;
+  TASKS.forEach(t=>{
+    const sheetDone = isDone(statusMap[t.id]);
+    if(sheetDone) doneCnt++;
+    renderTaskCard(t, sheetDone, pending.has(t.id) && !sheetDone);
+    renderTabPill(t, sheetDone, pending.has(t.id) && !sheetDone);
+    updateModalStatus(t.id, sheetDone, pending.has(t.id) && !sheetDone);
+  });
+
+  // Progress
+  const totalTasks = TASKS.length;
+  const pct = Math.round((doneCnt/totalTasks)*100);
+  document.getElementById('progressPct').textContent = pct+'%';
+  document.getElementById('progressBar').style.width = pct+'%';
+  document.getElementById('statTasks').innerHTML = '<strong>'+doneCnt+' / '+totalTasks+' tasks done</strong>';
+
+  // Days remaining
+  if(deadlineStr){
+    const deadline = parseDate(deadlineStr);
+    if(deadline){
+      const today=new Date(); today.setHours(0,0,0,0);
+      const daysLeft = Math.ceil((deadline-today)/(1000*60*60*24));
+      document.getElementById('statDays').innerHTML = '<strong>'+Math.max(0,daysLeft)+' days remaining</strong>';
+    }
   }
 
-  // 2FA
-  if (isDone(d.twoFAStatus)) setDone('b1','pt1');
+  // Hero badge
+  const heroBadge = document.getElementById('heroBadge');
+  if(isDone(d.profileActivated)){
+    heroBadge.className='hero-badge activated'; heroBadge.textContent='✦ Profile Activated';
+  } else {
+    heroBadge.className='hero-badge'; heroBadge.textContent='In progress';
+  }
 
-  // LMS
-  if (isDone(d.lms)) {
-    setDone('b2','pt2');
-    ['lms1','lms2','lms3','lms4'].forEach(id => {
-      const el = document.getElementById(id);
-      if(el){ el.className='lms-b done'; el.textContent='Done'; }
+  // Activation block
+  renderActivation(d, statusMap);
+}
+
+function renderDeadline(deadlineStr){
+  if(!deadlineStr){ document.getElementById('deadlineCard').style.display='none'; return; }
+  const d = parseDate(deadlineStr);
+  if(!d){ return; }
+  const months=['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+  const weekdays=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  document.getElementById('dlMonth').textContent = months[d.getMonth()];
+  document.getElementById('dlDay').textContent = d.getDate();
+  document.getElementById('dlFull').textContent = d.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+  document.getElementById('dlWeekday').textContent = weekdays[d.getDay()]+' · End of day';
+  const today=new Date(); today.setHours(0,0,0,0);
+  const daysLeft=Math.ceil((d-today)/(1000*60*60*24));
+  const txt = daysLeft>0 ? daysLeft+' days left to complete all tasks' : daysLeft===0 ? 'Deadline is today!' : Math.abs(daysLeft)+' days overdue';
+  document.getElementById('dlRemainingText').textContent = txt;
+}
+
+function renderTaskCard(task, isDone, isPending){
+  const grid = document.getElementById('tasksGrid');
+  const card = document.createElement('div');
+  card.id = 'taskCard_'+task.id;
+  let statusClass = 'ts-notdone', statusText='Not completed';
+  let cardClass = 'task-card';
+  if(isDone){ statusClass='ts-done'; statusText='✓ Completed'; cardClass='task-card done-card'; }
+  else if(isPending){ statusClass='ts-pending'; statusText='• In progress'; cardClass='task-card pending-card'; }
+  card.className = cardClass;
+  card.onclick = ()=>openModal(task.modalKey);
+  card.innerHTML = `
+    <div class="task-icon-wrap" style="background:${task.iconBg}">${task.icon}</div>
+    <div>
+      <div class="task-title">${task.label}</div>
+      <div class="task-status ${statusClass}">${statusText}</div>
+    </div>
+    <div class="task-link">
+      <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+      View details
+    </div>`;
+  grid.appendChild(card);
+}
+
+function renderTabPill(task, isDone, isPending){
+  const row = document.getElementById('tabRow');
+  const pill = document.createElement('div');
+  pill.id = 'tabPill_'+task.id;
+  let cls = 'tab-pill', txt = '';
+  if(isDone){ cls='tab-pill done'; txt='✓ '; }
+  else if(isPending){ cls='tab-pill active-tab'; txt='• '; }
+  pill.className = cls;
+  pill.textContent = txt+task.label;
+  pill.onclick = ()=>openModal(task.modalKey);
+  row.appendChild(pill);
+}
+
+function updateModalStatus(id, isDone, isPending){
+  const el = document.getElementById('modalStatus_'+id);
+  if(!el) return;
+  if(isDone){ el.className='modal-status ts-done'; el.textContent='✓ Completed'; }
+  else if(isPending){ el.className='modal-status ts-pending'; el.textContent='• In progress'; }
+  else{ el.className='modal-status ts-notdone'; el.textContent='Not completed'; }
+}
+
+function renderActivation(d, statusMap){
+  const profileActivated = isDone(d.profileActivated);
+  const allDone = TASKS.every(t=> isDone(statusMap[t.id]));
+
+  const iconEl = document.getElementById('activationIcon');
+  const titleEl = document.getElementById('activationTitle');
+  const subEl = document.getElementById('activationSub');
+  const badgeEl = document.getElementById('activationBadge');
+  const chipsEl = document.getElementById('remainingChips');
+
+  if(profileActivated){
+    iconEl.textContent='✦'; iconEl.style.background='rgba(87,255,167,.15)';
+    titleEl.textContent='Your profile is active!';
+    subEl.textContent='You can now go online on the platform';
+    badgeEl.className='activation-badge ab-active'; badgeEl.textContent='✓ Active';
+    chipsEl.innerHTML='';
+  } else if(allDone){
+    iconEl.textContent='⏳'; iconEl.style.background='rgba(111,112,246,.12)';
+    titleEl.textContent='All tasks completed — activation in progress';
+    subEl.textContent='Your profile will be activated within 48 hours';
+    badgeEl.className='activation-badge ab-pending'; badgeEl.textContent='⏳ Pending activation';
+    chipsEl.innerHTML='';
+  } else {
+    iconEl.textContent='⏳'; iconEl.style.background='rgba(255,198,10,.1)';
+    titleEl.textContent='Profile not activated yet';
+    subEl.textContent='Complete all required tasks to activate your profile';
+    badgeEl.className='activation-badge ab-notactive'; badgeEl.textContent='⊙ Not activated';
+    // chips
+    const pending = getPendingSet();
+    let html = '<span style="font-size:11px;color:var(--text3);align-self:center;margin-right:2px">Remaining:</span>';
+    TASKS.forEach(t=>{
+      const done = isDone(statusMap[t.id]);
+      html+='<div class="rchip'+(done?' chip-done':'')+'">'+
+        (done?'✓ ':'')+t.label+'</div>';
+    });
+    chipsEl.innerHTML = html;
+  }
+}
+
+function parseDate(str){
+  if(!str||str==='—') return null;
+  // Try various formats
+  const d = new Date(str);
+  if(!isNaN(d)) return d;
+  // Try DD.MM.YYYY
+  const m = str.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/);
+  if(m) return new Date(parseInt(m[3]),parseInt(m[2])-1,parseInt(m[1]));
+  return null;
+}
+
+// Modal control
+function openModal(key){
+  document.getElementById('modal-'+key).classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeModal(key){
+  document.getElementById('modal-'+key).classList.remove('open');
+  document.body.style.overflow='';
+}
+
+// Click outside modal closes it
+document.querySelectorAll('.modal-overlay').forEach(overlay=>{
+  overlay.addEventListener('click', e=>{
+    if(e.target===overlay){
+      overlay.classList.remove('open');
+      document.body.style.overflow='';
+    }
+  });
+});
+
+// Mark task as pending when user clicks a platform link
+function markPending(taskId){
+  const pending = getPendingSet();
+  pending.add(taskId);
+  savePendingSet(pending);
+  // Update UI immediately
+  const taskEl = document.getElementById('taskCard_'+taskId);
+  const pillEl = document.getElementById('tabPill_'+taskId);
+  const modalEl = document.getElementById('modalStatus_'+taskId);
+  // Only update if not already done
+  if(taskEl && !taskEl.classList.contains('done-card')){
+    taskEl.className='task-card pending-card';
+    taskEl.querySelector('.task-status').className='task-status ts-pending';
+    taskEl.querySelector('.task-status').textContent='• In progress';
+  }
+  if(pillEl && !pillEl.classList.contains('done')){
+    pillEl.className='tab-pill active-tab';
+    pillEl.textContent='• '+TASKS.find(t=>t.id===taskId).label;
+  }
+  if(modalEl && !modalEl.classList.contains('ts-done')){
+    modalEl.className='modal-status ts-pending';
+    modalEl.textContent='• In progress';
+  }
+}
+
+// ESC key
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){
+    document.querySelectorAll('.modal-overlay.open').forEach(el=>{
+      el.classList.remove('open');
+      document.body.style.overflow='';
     });
   }
-
-  // Profile form
-  if (isDone(d.profileForm)) setDone('b3','pt3');
-
-  // Schedule
-  if (isDone(d.scheduleStatus)) setDone('b4','pt4');
-}
-
-function setDone(bId, ptId) {
-  const b = document.getElementById(bId);
-  if(b){ b.className='badge done'; b.textContent='Done'; }
-  const pt = document.getElementById(ptId);
-  if(pt){ pt.classList.remove('active'); pt.classList.add('done'); }
-}
-
-function tog(id) {
-  document.getElementById(id).classList.toggle('open');
-}
-
-function scrollToCard(id) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  if (!el.classList.contains('open')) el.classList.add('open');
-  setTimeout(() => el.scrollIntoView({behavior:'smooth', block:'start'}), 50);
-}
+});
 
 init();
 </script>
